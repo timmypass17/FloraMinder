@@ -10,11 +10,19 @@ import SwiftUI
 @main
 struct FloraMinderApp: App {
     let persistenceController = PersistenceController.shared
-
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            TabView {
+                HomeView()
+                    .tabItem {
+                        Label("Garden", systemImage: "leaf.fill")
+                    }
+                
+//                Text("Schedule") // today, tomarrow... and show past watering history?
+//                Text("Hello World")
+            }
+            .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
 }

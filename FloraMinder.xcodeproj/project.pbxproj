@@ -8,22 +8,46 @@
 
 /* Begin PBXBuildFile section */
 		3281CC352AA6742C0074F995 /* FloraMinderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3281CC342AA6742C0074F995 /* FloraMinderApp.swift */; };
-		3281CC372AA6742C0074F995 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3281CC362AA6742C0074F995 /* ContentView.swift */; };
 		3281CC392AA6742E0074F995 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3281CC382AA6742E0074F995 /* Assets.xcassets */; };
 		3281CC3C2AA6742E0074F995 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3281CC3B2AA6742E0074F995 /* Preview Assets.xcassets */; };
 		3281CC3E2AA6742E0074F995 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3281CC3D2AA6742E0074F995 /* Persistence.swift */; };
 		3281CC412AA6742E0074F995 /* FloraMinder.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3281CC3F2AA6742E0074F995 /* FloraMinder.xcdatamodeld */; };
+		3281CC572AA674730074F995 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3281CC4A2AA674730074F995 /* DetailView.swift */; };
+		3281CC582AA674730074F995 /* PlantCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3281CC4B2AA674730074F995 /* PlantCellView.swift */; };
+		3281CC592AA674730074F995 /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3281CC4C2AA674730074F995 /* ScheduleView.swift */; };
+		3281CC5A2AA674730074F995 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3281CC4D2AA674730074F995 /* HomeView.swift */; };
+		3281CC5B2AA674730074F995 /* DetailEditPlantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3281CC4E2AA674730074F995 /* DetailEditPlantView.swift */; };
+		3281CC5C2AA674730074F995 /* AddEditPlantSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3281CC4F2AA674730074F995 /* AddEditPlantSheet.swift */; };
+		3281CC5D2AA674730074F995 /* SelectWaterIntervalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3281CC502AA674730074F995 /* SelectWaterIntervalView.swift */; };
+		3281CC5E2AA674730074F995 /* EditableCircularPlantImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3281CC512AA674730074F995 /* EditableCircularPlantImage.swift */; };
+		3281CC602AA674730074F995 /* Plant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3281CC542AA674730074F995 /* Plant.swift */; };
+		3281CC8D2AA688F60074F995 /* Plant in Sources */ = {isa = PBXBuildFile; fileRef = 3281CC8B2AA688F60074F995 /* Plant */; };
+		3281CC962AA6CAE50074F995 /* AddEditPlantViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3281CC952AA6CAE50074F995 /* AddEditPlantViewModel.swift */; };
+		32B49EBB2AA7B33B0005319E /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B49EBA2AA7B33B0005319E /* HomeViewModel.swift */; };
+		32B49EC12AAA2E8D0005319E /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B49EC02AAA2E8D0005319E /* DetailViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3281CC312AA6742C0074F995 /* FloraMinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FloraMinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3281CC342AA6742C0074F995 /* FloraMinderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloraMinderApp.swift; sourceTree = "<group>"; };
-		3281CC362AA6742C0074F995 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3281CC382AA6742E0074F995 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3281CC3B2AA6742E0074F995 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3281CC3D2AA6742E0074F995 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		3281CC402AA6742E0074F995 /* FloraMinder.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FloraMinder.xcdatamodel; sourceTree = "<group>"; };
 		3281CC422AA6742E0074F995 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3281CC4A2AA674730074F995 /* DetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		3281CC4B2AA674730074F995 /* PlantCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlantCellView.swift; sourceTree = "<group>"; };
+		3281CC4C2AA674730074F995 /* ScheduleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
+		3281CC4D2AA674730074F995 /* HomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		3281CC4E2AA674730074F995 /* DetailEditPlantView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailEditPlantView.swift; sourceTree = "<group>"; };
+		3281CC4F2AA674730074F995 /* AddEditPlantSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddEditPlantSheet.swift; sourceTree = "<group>"; };
+		3281CC502AA674730074F995 /* SelectWaterIntervalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectWaterIntervalView.swift; sourceTree = "<group>"; };
+		3281CC512AA674730074F995 /* EditableCircularPlantImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditableCircularPlantImage.swift; sourceTree = "<group>"; };
+		3281CC542AA674730074F995 /* Plant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plant.swift; sourceTree = "<group>"; };
+		3281CC8B2AA688F60074F995 /* Plant */ = {isa = PBXFileReference; lastKnownFileType = text; name = Plant; path = FloraMinder/Models/Plant; sourceTree = "<group>"; };
+		3281CC952AA6CAE50074F995 /* AddEditPlantViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditPlantViewModel.swift; sourceTree = "<group>"; };
+		32B49EBA2AA7B33B0005319E /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		32B49EC02AAA2E8D0005319E /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,6 +64,7 @@
 		3281CC282AA6742C0074F995 = {
 			isa = PBXGroup;
 			children = (
+				3281CC8B2AA688F60074F995 /* Plant */,
 				3281CC332AA6742C0074F995 /* FloraMinder */,
 				3281CC322AA6742C0074F995 /* Products */,
 			);
@@ -57,12 +82,16 @@
 			isa = PBXGroup;
 			children = (
 				3281CC342AA6742C0074F995 /* FloraMinderApp.swift */,
-				3281CC362AA6742C0074F995 /* ContentView.swift */,
+				3281CC532AA674730074F995 /* Models */,
+				3281CC492AA674730074F995 /* Views */,
 				3281CC382AA6742E0074F995 /* Assets.xcassets */,
 				3281CC3D2AA6742E0074F995 /* Persistence.swift */,
 				3281CC422AA6742E0074F995 /* Info.plist */,
 				3281CC3F2AA6742E0074F995 /* FloraMinder.xcdatamodeld */,
 				3281CC3A2AA6742E0074F995 /* Preview Content */,
+				3281CC952AA6CAE50074F995 /* AddEditPlantViewModel.swift */,
+				32B49EBA2AA7B33B0005319E /* HomeViewModel.swift */,
+				32B49EC02AAA2E8D0005319E /* DetailViewModel.swift */,
 			);
 			path = FloraMinder;
 			sourceTree = "<group>";
@@ -73,6 +102,29 @@
 				3281CC3B2AA6742E0074F995 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		3281CC492AA674730074F995 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3281CC4A2AA674730074F995 /* DetailView.swift */,
+				3281CC4B2AA674730074F995 /* PlantCellView.swift */,
+				3281CC4C2AA674730074F995 /* ScheduleView.swift */,
+				3281CC4D2AA674730074F995 /* HomeView.swift */,
+				3281CC4E2AA674730074F995 /* DetailEditPlantView.swift */,
+				3281CC4F2AA674730074F995 /* AddEditPlantSheet.swift */,
+				3281CC502AA674730074F995 /* SelectWaterIntervalView.swift */,
+				3281CC512AA674730074F995 /* EditableCircularPlantImage.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		3281CC532AA674730074F995 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				3281CC542AA674730074F995 /* Plant.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -145,10 +197,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32B49EBB2AA7B33B0005319E /* HomeViewModel.swift in Sources */,
+				3281CC5A2AA674730074F995 /* HomeView.swift in Sources */,
+				3281CC572AA674730074F995 /* DetailView.swift in Sources */,
+				3281CC8D2AA688F60074F995 /* Plant in Sources */,
+				3281CC5D2AA674730074F995 /* SelectWaterIntervalView.swift in Sources */,
 				3281CC3E2AA6742E0074F995 /* Persistence.swift in Sources */,
-				3281CC372AA6742C0074F995 /* ContentView.swift in Sources */,
+				3281CC602AA674730074F995 /* Plant.swift in Sources */,
 				3281CC352AA6742C0074F995 /* FloraMinderApp.swift in Sources */,
+				3281CC5E2AA674730074F995 /* EditableCircularPlantImage.swift in Sources */,
+				3281CC5C2AA674730074F995 /* AddEditPlantSheet.swift in Sources */,
+				3281CC592AA674730074F995 /* ScheduleView.swift in Sources */,
+				3281CC5B2AA674730074F995 /* DetailEditPlantView.swift in Sources */,
 				3281CC412AA6742E0074F995 /* FloraMinder.xcdatamodeld in Sources */,
+				3281CC962AA6CAE50074F995 /* AddEditPlantViewModel.swift in Sources */,
+				3281CC582AA674730074F995 /* PlantCellView.swift in Sources */,
+				32B49EC12AAA2E8D0005319E /* DetailViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
