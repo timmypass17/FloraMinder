@@ -41,7 +41,7 @@ struct HomeView: View {
                             }
                             .swipeActions(edge: .trailing) {
                                 Button(role: .destructive) {
-                                    Plant.delete(plant: plant, with: context)
+                                    homeViewModel.deletePlant(plant)
                                 } label: {
                                     Label("Delete", systemImage: "trash")
                                 }

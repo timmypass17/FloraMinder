@@ -25,6 +25,7 @@
 		3281CC962AA6CAE50074F995 /* AddEditPlantViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3281CC952AA6CAE50074F995 /* AddEditPlantViewModel.swift */; };
 		32B49EBB2AA7B33B0005319E /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B49EBA2AA7B33B0005319E /* HomeViewModel.swift */; };
 		32B49EC12AAA2E8D0005319E /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B49EC02AAA2E8D0005319E /* DetailViewModel.swift */; };
+		32B49EC32AAA8C670005319E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B49EC22AAA8C670005319E /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		3281CC952AA6CAE50074F995 /* AddEditPlantViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditPlantViewModel.swift; sourceTree = "<group>"; };
 		32B49EBA2AA7B33B0005319E /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		32B49EC02AAA2E8D0005319E /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
+		32B49EC22AAA8C670005319E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 				3281CC952AA6CAE50074F995 /* AddEditPlantViewModel.swift */,
 				32B49EBA2AA7B33B0005319E /* HomeViewModel.swift */,
 				32B49EC02AAA2E8D0005319E /* DetailViewModel.swift */,
+				32B49EC22AAA8C670005319E /* AppDelegate.swift */,
 			);
 			path = FloraMinder;
 			sourceTree = "<group>";
@@ -212,6 +215,7 @@
 				3281CC412AA6742E0074F995 /* FloraMinder.xcdatamodeld in Sources */,
 				3281CC962AA6CAE50074F995 /* AddEditPlantViewModel.swift in Sources */,
 				3281CC582AA674730074F995 /* PlantCellView.swift in Sources */,
+				32B49EC32AAA8C670005319E /* AppDelegate.swift in Sources */,
 				32B49EC12AAA2E8D0005319E /* DetailViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

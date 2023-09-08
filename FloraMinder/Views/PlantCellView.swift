@@ -19,36 +19,35 @@ struct PlantCellView: View {
                     .frame(width: 50, height: 50)
                     .clipShape(Circle())
             } else {
-                Image(systemName: "leaf.fill")
+                Image(systemName: "camera.macro")
                     .font(.title)
                     .foregroundColor(.white)
-                    .background(Circle().fill(.green).frame(width: 50, height: 50))
-                    .padding(.trailing)
+                    .frame(width: 50, height: 50)
+                    .background {
+                        Circle().fill(.regularMaterial)
+                    }
             }
-//            else {
-//                Image(systemName: "leaf.fill")
-//                    .font(.title)
-//                    .foregroundColor(.white)
-//                    .background(Circle().fill(.green).frame(width: 50, height: 50))
-//                    .padding(.trailing)
-//            }
-            
+
             VStack(alignment: .leading) {
                 Text(plant.name)
                 
-                ProgressView(value: progress(), total: total()) {
-                    HStack {
-                        Text("Water every \(plant.unit) \(plant.interval.rawValue)") // maybe make this section
-                        Spacer()
-                        Label("\(plant.daysUntilNextWatering) Days", systemImage: "clock")
-                            .labelStyle(.titleAndIcon)
-                        // USe sparkles to show ready to water
+                // Updates UI every minute
+                TimelineView(.everyMinute) { context in
+                    ProgressView(value: progress(), total: total()) {
+                        HStack {
+                            Text("Water every \(plant.unit) \(plant.interval.rawValue)") // maybe make this section
+                            Spacer()
+                            // Use sparkles to show ready to water
+                            Label("\(plant.daysUntilNextWatering)", systemImage: "clock")
+                                .labelStyle(.titleAndIcon)
+                        }
+                        .foregroundColor(.secondary)
+                        .font(.subheadline)
                     }
-                    .foregroundColor(.secondary)
-                    .font(.subheadline)
+                    .progressViewStyle(.linear)
                 }
-                .progressViewStyle(.linear)
             }
+            .padding(.leading, 4)
         }
     }
     
@@ -79,6 +78,7 @@ struct PlantCellView: View {
 struct PlantCellView_Previews: PreviewProvider {
     static var previews: some View {
         PlantCellView(plant: Plant(entity: Plant.entity(), insertInto: nil))
+            .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
             .padding()
             .previewLayout(.sizeThatFits)
         

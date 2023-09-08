@@ -3,11 +3,9 @@
     <entity name="Plant" representedClassName="Plant" syncable="YES">
         <attribute name="imageFilePath" optional="YES" attributeType="String"/>
         <attribute name="interval_" optional="YES" attributeType="String"/>
-        <attribute name="isNotificationEnabled" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="lastWatered_" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="location_" optional="YES" attributeType="String"/>
         <attribute name="name_" optional="YES" attributeType="String"/>
-        <attribute name="notificationID" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="unit" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
 </model>

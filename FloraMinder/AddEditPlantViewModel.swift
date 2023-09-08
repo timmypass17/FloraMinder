@@ -16,7 +16,7 @@ class AddEditPlantViewModel: ObservableObject {
     @Published var lastWatered = Date()
     @Published var waterTimeInterval: WaterTimeInterval = .day
     @Published var unit = 0
-    @Published var isNotificationEnabled = false
+    @Published var isNotificationEnabled = true
     @Published private(set) var imageState: ImageState = .empty
     
     @Published var imageSelection: PhotosPickerItem? = nil {
@@ -42,7 +42,7 @@ class AddEditPlantViewModel: ObservableObject {
         lastWatered = plant.lastWatered
         waterTimeInterval = plant.interval
         unit = Int(plant.unit)
-        isNotificationEnabled = plant.isNotificationEnabled
+        
         do {
             if let imageFilePath = plant.imageFilePath,
                let data = try? Data(contentsOf: URL(filePath: imageFilePath)) {
@@ -53,7 +53,7 @@ class AddEditPlantViewModel: ObservableObject {
         }
     }
     
-    func addPlant() {
+    func addPlant() async {
         // 1. Create a new instance of your Core Data entity.
         let plant = Plant(context: context)
         // 2. Set the properties of the managed object as needed.
@@ -62,16 +62,13 @@ class AddEditPlantViewModel: ObservableObject {
         plant.lastWatered = lastWatered
         plant.interval = waterTimeInterval
         plant.unit = Int32(unit)
-        plant.isNotificationEnabled = isNotificationEnabled
         
         // Save the image data to the file path
         switch imageState {
         case .success(let data):
             // Create a unique file name or generate a URL for the image
             let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-            print(documentsDirectory.path)
             let fileURL = documentsDirectory.appending(path: "\(UUID().uuidString).jpg")
-            print(fileURL.path)
             try? data.write(to: fileURL)
             plant.imageFilePath = fileURL.path
         default:
@@ -87,14 +84,15 @@ class AddEditPlantViewModel: ObservableObject {
         }
     }
     
-    func updatePlant() {
+    func updatePlant() async {
         guard let plant = plant else { return }
         plant.name = name
         plant.location = location
         plant.lastWatered = lastWatered
         plant.interval = waterTimeInterval
         plant.unit = Int32(unit)
-        plant.isNotificationEnabled = isNotificationEnabled
+        
+        // TODO: Update notification
         
         // Save the image data to the file path
         switch imageState {

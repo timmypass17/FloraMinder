@@ -10,63 +10,99 @@ import SwiftUI
 struct DetailView: View {
     @Environment(\.managedObjectContext) private var context
     @StateObject var detailViewModel: DetailViewModel
+    @ObservedObject var plant: Plant
     
     init(plant: Plant) {
+        self.plant = plant
         self._detailViewModel = StateObject(wrappedValue: DetailViewModel(plant: plant))
         
     }
     
     var body: some View {
-        Form {
-            Section("Plant") {
-                if let imageFilePath = detailViewModel.plant.imageFilePath,
-                    let image = UIImage(contentsOfFile: imageFilePath) {
-                    Image(uiImage: image)
-                        .resizable()
-                        .frame(width: 50, height: 50)
-                        .clipShape(Circle())
-                } else {
-                    Image(systemName: "leaf.circle.fill")
-                        .frame(width: 100, height: 100)
-                        .font(.system(size: 40))
-                        .foregroundColor(.white)
+        VStack {
+            Form {
+                Section("Plant") {
+                    if let imageFilePath = detailViewModel.plant.imageFilePath,
+                       let image = UIImage(contentsOfFile: imageFilePath) {
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 150, height: 150)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .clipShape(Circle())
+                        
+                    } else {
+                        Image(systemName: "camera.macro")
+                            .font(.system(size: 80))
+                            .foregroundColor(.white)
+                            .frame(width: 150, height: 150)
+                            .background {
+                                Circle().fill(.regularMaterial)
+                            }
+                            .frame(maxWidth: .infinity, alignment: .center)
+                    }
+                    
+                    HStack {
+                        Label("Plant Name", systemImage: "leaf")
+                        Spacer()
+                        Text(detailViewModel.plant.name)
+                            .foregroundColor(.secondary)
+                    }
+                    
+                    HStack {
+                        Label("Location", systemImage: "house")
+                        Spacer()
+                        Text(detailViewModel.plant.location)
+                            .foregroundColor(.secondary)
+                    }
+                    
+                    HStack {
+                        Label("Last Watered", systemImage: "clock")
+                        Spacer()
+                        Text("\(plant.lastWatered.formatted(date: .abbreviated, time: .omitted))")
+                            .foregroundColor(.secondary)
+                    }
                 }
                 
-                HStack {
-                    Label("Plant Name", systemImage: "leaf")
-                    Spacer()
-                    Text(detailViewModel.plant.name)
-                        .foregroundColor(.secondary)
+                Section("Watering Information") {
+                    HStack {
+                        Label("Water Every", systemImage: "calendar")
+                        
+                        Spacer()
+                        
+                        Text("\(detailViewModel.plant.unit) \(detailViewModel.plant.interval.rawValue)s")
+                            .foregroundColor(.secondary)
+                    }
+                    
+                    HStack {
+                        Label("Time Remaining", systemImage: "clock")
+                        
+                        Spacer()
+                        Text("\(detailViewModel.plant.daysUntilNextWatering)")
+                            .foregroundColor(.secondary)
+                        
+                    }
                 }
                 
-                HStack {
-                    Label("Location", systemImage: "house")
-                    Spacer()
-                    Text(detailViewModel.plant.location)
-                        .foregroundColor(.secondary)
-                }
-                
-                HStack {
-                    Label("Water Interval", systemImage: "drop")
-                    Spacer()
-                    Text("\(detailViewModel.plant.unit) \(detailViewModel.plant.interval.rawValue)s")
-                        .foregroundColor(.secondary)
-                }
-                
-                HStack {
-                    Label("Last Watered", systemImage: "clock")
-                    Spacer()
-                    Text("\(detailViewModel.plant.lastWatered.formatted(date: .abbreviated, time: .omitted))")
-                        .foregroundColor(.secondary)
-                }
+                // Section("Screen shots")
+                // Section("AR shot")
             }
             
-//            Section("History") {
-//                Text("")
-//            }
+            Button {
+                Task {
+                    await detailViewModel.waterPlantButtonTapped()
+                }
+            } label: {
+                Label("Water Plant", systemImage: "drop")
+                    .labelStyle(.titleAndIcon)
+                    .padding(4)
+                    .frame(maxWidth: .infinity, alignment: .center)
+            }
+            .padding()
+            .buttonStyle(.bordered)
+            .tint(.blue)
+            .disabled(!detailViewModel.waterButtonIsEnabled)
             
-            // Section("Screen shots")
-            // Section("AR shot")
         }
         .navigationTitle(detailViewModel.plant.name)
         .toolbar {
@@ -80,7 +116,7 @@ struct DetailView: View {
             AddEditPlantSheet(
                 plant: detailViewModel.plant,
                 isPresentingAddEditPlantSheet: $detailViewModel.isPresentingEditPlantSheet)
-                .environment(\.managedObjectContext, context)
+            .environment(\.managedObjectContext, context)
         }
     }
 }
@@ -88,5 +124,6 @@ struct DetailView: View {
 struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
         DetailView(plant: Plant(entity: Plant.entity(), insertInto: nil))
+            .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
     }
 }

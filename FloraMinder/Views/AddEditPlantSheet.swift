@@ -60,36 +60,22 @@ struct AddEditPlantSheet: View {
                 ToolbarItem(placement: .confirmationAction) {
                     if addEditPlantViewModel.plant == nil {
                         Button("Add") {
-                            addEditPlantViewModel.addPlant()
+                            Task {
+                                await addEditPlantViewModel.addPlant()
+                            }
                             isPresentingAddEditPlantSheet = false
                         }
                     } else {
                         Button("Save") {
-                            addEditPlantViewModel.updatePlant()
+                            Task {
+                                await addEditPlantViewModel.updatePlant()
+                            }
                             isPresentingAddEditPlantSheet = false
                         }
                     }
                 }
             }
         }
-//        NavigationStack {
-//            DetailEditView(detailEditViewModel: detailEditViewModel)
-//                .navigationTitle("Add New Plant 🌱")
-//                .navigationBarTitleDisplayMode(.inline)
-//                .toolbar {
-//                    ToolbarItem(placement: .cancellationAction) {
-//                        Button("Dismiss") {
-//                            detailEditViewModel.isPresentingNewPlantView = false
-//                        }
-//                    }
-//                    ToolbarItem(placement: .confirmationAction) {
-//                        Button("Add") {
-//                            detailEditViewModel.addPlant()
-//                            detailEditViewModel.isPresentingNewPlantView = false
-//                        }
-//                    }
-//                }
-//        }
     }
     
     
