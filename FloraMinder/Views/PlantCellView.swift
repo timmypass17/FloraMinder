@@ -10,6 +10,14 @@ import SwiftUI
 struct PlantCellView: View {
     @ObservedObject var plant: Plant
     
+    var imageString: String {
+        if plant.plantIsReadyToWater {
+            return "sparkles"
+        } else {
+            return "clock"
+        }
+    }
+    
     var body: some View {
         HStack {
             if let imageFilePath = plant.imageFilePath,
@@ -33,13 +41,15 @@ struct PlantCellView: View {
                 
                 // Updates UI every minute
                 TimelineView(.everyMinute) { context in
-                    ProgressView(value: progress(), total: total()) {
+                    ProgressView(value: currentWaterTime(), total: totalWaterTime()) {
                         HStack {
-                            Text("Water every \(plant.unit) \(plant.interval.rawValue)") // maybe make this section
+                            Label("Every \(plant.unit) \(plant.interval.rawValue)", systemImage: "calendar")
+                                .labelStyle(.titleAndIcon)
                             Spacer()
                             // Use sparkles to show ready to water
-                            Label("\(plant.daysUntilNextWatering)", systemImage: "clock")
+                            Label("\(plant.timeRemainingToWaterPlant)", systemImage: imageString)
                                 .labelStyle(.titleAndIcon)
+                                .symbolRenderingMode(.multicolor)
                         }
                         .foregroundColor(.secondary)
                         .font(.subheadline)
@@ -51,13 +61,7 @@ struct PlantCellView: View {
         }
     }
     
-    func progress() -> Float {
-//        let secondsPerDay: TimeInterval = 86400
-//        // Convert the date to a timestamp (integer) in seconds
-//        let startTimestampInDays = Int(plant.lastWatered.timeIntervalSince1970 / secondsPerDay)
-//        let endTimestampInDays = Int(Date().timeIntervalSince1970 / secondsPerDay)
-//        let progress = endTimestampInDays - startTimestampInDays
-        
+    func currentWaterTime() -> Float {
         let startTimestampInDays = Int(plant.lastWatered.timeIntervalSince1970)
         let endTimestampInDays = Int(Date().timeIntervalSince1970)
         let progress = endTimestampInDays - startTimestampInDays
@@ -65,7 +69,7 @@ struct PlantCellView: View {
         return Float(progress)
     }
     
-    func total() -> Float {
+    func totalWaterTime() -> Float {
         // Convert the date to a timestamp (integer) in seconds
         let startTimestampInDays = Int(plant.lastWatered.timeIntervalSince1970)
         let endTimestampInDays = Int(plant.nextWateringDate.timeIntervalSince1970)

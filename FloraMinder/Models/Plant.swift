@@ -36,46 +36,55 @@ extension Plant {
         return Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: nextWateringDate) ?? Date()
     }
     
-    var daysUntilNextWatering: String {
-        let secondsPerDay: TimeInterval = 86400
+    var plantIsReadyToWater: Bool {
         // Convert the date to a timestamp (integer) in seconds
         let startTimestampInDays = Date().timeIntervalSince1970
         let endTimestampInDays = nextWateringDate.timeIntervalSince1970
         
-        let secondsRemaining = endTimestampInDays - startTimestampInDays
+        let secondsRemaining = max(endTimestampInDays - startTimestampInDays, 0)
+        return secondsRemaining > 0 ? false : true
+    }
+    
+    var timeRemainingToWaterPlant: String {
+        // Convert the date to a timestamp (integer) in seconds
+        let startTimestampInDays = Date().timeIntervalSince1970
+        let endTimestampInDays = nextWateringDate.timeIntervalSince1970
+        
+        let secondsRemaining = max(endTimestampInDays - startTimestampInDays, 0)
+        if plantIsReadyToWater {
+            return "Ready to water"
+        }
         return timeIntervalToString(seconds: secondsRemaining)
     }
     
     private func timeIntervalToString(seconds: TimeInterval) -> String {
-        let minute = 60.0
-        let hour = 3600.0
-        let day = 86400.0
-        let month = 2592000.0
-        let year = 31536000.0
+        let days = Int(seconds) / 86400
+        let hours = (Int(seconds) % 86400) / 3600
+        let minutes = (Int(seconds) % 3600) / 60
 
-        if seconds < minute {
-            let secondsString = Int(seconds) == 1 ? "second" : "seconds"
-            return "\(Int(seconds)) \(secondsString)"
-        } else if seconds < hour {
-            let minutes = Int(seconds / minute)
-            let minutesString = minutes == 1 ? "minute" : "minutes"
-            return "\(minutes) \(minutesString)"
-        } else if seconds < day {
-            let hours = Int(seconds / hour)
-            let hoursString = hours == 1 ? "hour" : "hours"
-            return "\(hours) \(hoursString)"
-        } else if seconds < month {
-            let days = Int(seconds / day)
-            let daysString = days == 1 ? "day" : "days"
-            return "\(days) \(daysString)"
-        } else if seconds < year {
-            let months = Int(seconds / month)
-            let monthsString = months == 1 ? "month" : "months"
-            return "\(months) \(monthsString)"
+        // > 1 day
+        if days > 0 {
+            // Round up days (ex. 1 day, 17 hr -> 2 days)
+            if hours > 12 {
+                return "\(days + 1) days"
+            } else {
+                // 2 day, 8 hr -> 2 day
+                return "\(days) days"
+            }
+        }
+        // 1 - 24 hours
+        else if hours > 0 {
+            // Round up hours (ex. 17 hr -> 1 day)
+            if hours > 12 {
+                return "1 day"
+            } else {
+                // Show minutes if < 12 hr
+                // 11 hr, 54 mins
+                return "\(hours) hr, \(minutes) mins"
+            }
+        // 0 - 60 minutes
         } else {
-            let years = Int(seconds / year)
-            let yearsString = years == 1 ? "year" : "years"
-            return "\(years) \(yearsString)"
+            return "\(minutes) mins"
         }
     }
     
@@ -84,6 +93,8 @@ extension Plant {
         set { name_ = newValue}
     }
     
+    
+    @objc // @objc attribute for it to function as a section identifier
     var location: String {
         get { location_ ?? "" }
         set { location_ = newValue}

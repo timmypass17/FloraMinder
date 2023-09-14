@@ -14,8 +14,8 @@ class AddEditPlantViewModel: ObservableObject {
     @Published var name = ""
     @Published var location = ""
     @Published var lastWatered = Date()
-    @Published var waterTimeInterval: WaterTimeInterval = .day
-    @Published var unit = 0
+    @Published var waterTimeInterval: WaterTimeInterval = .week
+    @Published var unit = 1
     @Published var isNotificationEnabled = true
     @Published private(set) var imageState: ImageState = .empty
     

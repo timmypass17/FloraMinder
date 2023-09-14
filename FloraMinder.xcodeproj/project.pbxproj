@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		326F85642AB1200400DCD217 /* FloraMinderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326F85632AB1200400DCD217 /* FloraMinderTests.swift */; };
 		3281CC352AA6742C0074F995 /* FloraMinderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3281CC342AA6742C0074F995 /* FloraMinderApp.swift */; };
 		3281CC392AA6742E0074F995 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3281CC382AA6742E0074F995 /* Assets.xcassets */; };
 		3281CC3C2AA6742E0074F995 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3281CC3B2AA6742E0074F995 /* Preview Assets.xcassets */; };
@@ -21,14 +22,25 @@
 		3281CC5D2AA674730074F995 /* SelectWaterIntervalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3281CC502AA674730074F995 /* SelectWaterIntervalView.swift */; };
 		3281CC5E2AA674730074F995 /* EditableCircularPlantImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3281CC512AA674730074F995 /* EditableCircularPlantImage.swift */; };
 		3281CC602AA674730074F995 /* Plant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3281CC542AA674730074F995 /* Plant.swift */; };
-		3281CC8D2AA688F60074F995 /* Plant in Sources */ = {isa = PBXBuildFile; fileRef = 3281CC8B2AA688F60074F995 /* Plant */; };
 		3281CC962AA6CAE50074F995 /* AddEditPlantViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3281CC952AA6CAE50074F995 /* AddEditPlantViewModel.swift */; };
 		32B49EBB2AA7B33B0005319E /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B49EBA2AA7B33B0005319E /* HomeViewModel.swift */; };
 		32B49EC12AAA2E8D0005319E /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B49EC02AAA2E8D0005319E /* DetailViewModel.swift */; };
 		32B49EC32AAA8C670005319E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B49EC22AAA8C670005319E /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		326F85652AB1200400DCD217 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3281CC292AA6742C0074F995 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3281CC302AA6742C0074F995;
+			remoteInfo = FloraMinder;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		326F85612AB1200400DCD217 /* FloraMinderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FloraMinderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		326F85632AB1200400DCD217 /* FloraMinderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloraMinderTests.swift; sourceTree = "<group>"; };
 		3281CC312AA6742C0074F995 /* FloraMinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FloraMinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3281CC342AA6742C0074F995 /* FloraMinderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloraMinderApp.swift; sourceTree = "<group>"; };
 		3281CC382AA6742E0074F995 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -45,7 +57,6 @@
 		3281CC502AA674730074F995 /* SelectWaterIntervalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectWaterIntervalView.swift; sourceTree = "<group>"; };
 		3281CC512AA674730074F995 /* EditableCircularPlantImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditableCircularPlantImage.swift; sourceTree = "<group>"; };
 		3281CC542AA674730074F995 /* Plant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plant.swift; sourceTree = "<group>"; };
-		3281CC8B2AA688F60074F995 /* Plant */ = {isa = PBXFileReference; lastKnownFileType = text; name = Plant; path = FloraMinder/Models/Plant; sourceTree = "<group>"; };
 		3281CC952AA6CAE50074F995 /* AddEditPlantViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditPlantViewModel.swift; sourceTree = "<group>"; };
 		32B49EBA2AA7B33B0005319E /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		32B49EC02AAA2E8D0005319E /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
@@ -53,6 +64,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		326F855E2AB1200400DCD217 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3281CC2E2AA6742C0074F995 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -63,11 +81,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		326F85622AB1200400DCD217 /* FloraMinderTests */ = {
+			isa = PBXGroup;
+			children = (
+				326F85632AB1200400DCD217 /* FloraMinderTests.swift */,
+			);
+			path = FloraMinderTests;
+			sourceTree = "<group>";
+		};
 		3281CC282AA6742C0074F995 = {
 			isa = PBXGroup;
 			children = (
-				3281CC8B2AA688F60074F995 /* Plant */,
 				3281CC332AA6742C0074F995 /* FloraMinder */,
+				326F85622AB1200400DCD217 /* FloraMinderTests */,
 				3281CC322AA6742C0074F995 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -76,6 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				3281CC312AA6742C0074F995 /* FloraMinder.app */,
+				326F85612AB1200400DCD217 /* FloraMinderTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -133,6 +160,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		326F85602AB1200400DCD217 /* FloraMinderTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 326F85692AB1200400DCD217 /* Build configuration list for PBXNativeTarget "FloraMinderTests" */;
+			buildPhases = (
+				326F855D2AB1200400DCD217 /* Sources */,
+				326F855E2AB1200400DCD217 /* Frameworks */,
+				326F855F2AB1200400DCD217 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				326F85662AB1200400DCD217 /* PBXTargetDependency */,
+			);
+			name = FloraMinderTests;
+			productName = FloraMinderTests;
+			productReference = 326F85612AB1200400DCD217 /* FloraMinderTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		3281CC302AA6742C0074F995 /* FloraMinder */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3281CC452AA6742E0074F995 /* Build configuration list for PBXNativeTarget "FloraMinder" */;
@@ -160,6 +205,10 @@
 				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					326F85602AB1200400DCD217 = {
+						CreatedOnToolsVersion = 14.3.1;
+						TestTargetID = 3281CC302AA6742C0074F995;
+					};
 					3281CC302AA6742C0074F995 = {
 						CreatedOnToolsVersion = 14.3;
 					};
@@ -179,11 +228,19 @@
 			projectRoot = "";
 			targets = (
 				3281CC302AA6742C0074F995 /* FloraMinder */,
+				326F85602AB1200400DCD217 /* FloraMinderTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		326F855F2AB1200400DCD217 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3281CC2F2AA6742C0074F995 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -196,6 +253,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		326F855D2AB1200400DCD217 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				326F85642AB1200400DCD217 /* FloraMinderTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3281CC2D2AA6742C0074F995 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -203,7 +268,6 @@
 				32B49EBB2AA7B33B0005319E /* HomeViewModel.swift in Sources */,
 				3281CC5A2AA674730074F995 /* HomeView.swift in Sources */,
 				3281CC572AA674730074F995 /* DetailView.swift in Sources */,
-				3281CC8D2AA688F60074F995 /* Plant in Sources */,
 				3281CC5D2AA674730074F995 /* SelectWaterIntervalView.swift in Sources */,
 				3281CC3E2AA6742E0074F995 /* Persistence.swift in Sources */,
 				3281CC602AA674730074F995 /* Plant.swift in Sources */,
@@ -222,7 +286,51 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		326F85662AB1200400DCD217 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3281CC302AA6742C0074F995 /* FloraMinder */;
+			targetProxy = 326F85652AB1200400DCD217 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		326F85672AB1200400DCD217 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8KHAQ7W8KV;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.FloraMinderTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FloraMinder.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/FloraMinder";
+			};
+			name = Debug;
+		};
+		326F85682AB1200400DCD217 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8KHAQ7W8KV;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.FloraMinderTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FloraMinder.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/FloraMinder";
+			};
+			name = Release;
+		};
 		3281CC432AA6742E0074F995 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -398,6 +506,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		326F85692AB1200400DCD217 /* Build configuration list for PBXNativeTarget "FloraMinderTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				326F85672AB1200400DCD217 /* Debug */,
+				326F85682AB1200400DCD217 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		3281CC2C2AA6742C0074F995 /* Build configuration list for PBXProject "FloraMinder" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

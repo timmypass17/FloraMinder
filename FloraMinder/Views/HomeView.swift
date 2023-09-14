@@ -10,8 +10,11 @@ import SwiftUI
 struct HomeView: View {
     @Environment(\.managedObjectContext) private var context
     @SectionedFetchRequest<String, Plant>(
-        sectionIdentifier: \.location_!,
-        sortDescriptors: [SortDescriptor(\.name_, order: .forward)]
+        sectionIdentifier: \.location,
+        sortDescriptors: [
+            SortDescriptor(\.location_, order: .forward), // Sort sections alphabetically
+            SortDescriptor(\.name_, order: .forward)    // Sort items within sections
+            ]
     )
     private var plants: SectionedFetchResults<String, Plant>
     

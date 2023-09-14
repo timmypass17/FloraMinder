@@ -78,7 +78,7 @@ struct DetailView: View {
                         Label("Time Remaining", systemImage: "clock")
                         
                         Spacer()
-                        Text("\(detailViewModel.plant.daysUntilNextWatering)")
+                        Text("\(detailViewModel.plant.timeRemainingToWaterPlant)")
                             .foregroundColor(.secondary)
                         
                     }
