@@ -13,7 +13,7 @@ struct HomeView: View {
         sectionIdentifier: \.location,
         sortDescriptors: [
             SortDescriptor(\.location_, order: .forward), // Sort sections alphabetically
-            SortDescriptor(\.name_, order: .forward)    // Sort items within sections
+            SortDescriptor(\.name_, order: .forward)      // Sort items within sections
             ]
     )
     private var plants: SectionedFetchResults<String, Plant>
@@ -27,7 +27,6 @@ struct HomeView: View {
                 ForEach(plants) { section in
                     Section(header: Text("\(section.id) (\(section.count))")) {
                         ForEach(section) { plant in
-                            // TODO: Maybe use new navigation
                             NavigationLink {
                                 DetailView(plant: plant)
                             } label: {
@@ -36,7 +35,7 @@ struct HomeView: View {
                             }
                             .swipeActions(edge: .leading) {
                                 Button {
-                                    // Water Plant
+                                    plant.waterPlant(context: context)
                                 } label: {
                                     Label("Water Plant", systemImage: "drop")
                                 }

@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 class DetailViewModel: ObservableObject {
     @Published var isPresentingEditPlantSheet = false
     @Published var waterButtonIsEnabled = true
@@ -15,18 +16,12 @@ class DetailViewModel: ObservableObject {
     var plant: Plant
     
     init(plant: Plant) {
-        self.plant = plant // same ref to @ObservedObject plant in detailview, doesn't update ui if placed as @Published in viewmodel
+        // plant is same ref to @ObservedObject plant in detailview, doesn't update ui if placed as @Published in viewmodel for some reason
+        self.plant = plant
     }
     
     func waterPlantButtonTapped() async {
         waterButtonIsEnabled = false
-        plant.lastWatered = Date()
-        
-        do {
-            try context.save()
-            print("Watered plant successfully\n\(plant)")
-        } catch {
-            print("Erroring watering plant\n\(error)")
-        }
+        plant.waterPlant(context: context)
     }
 }

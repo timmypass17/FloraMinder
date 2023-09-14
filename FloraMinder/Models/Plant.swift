@@ -17,6 +17,17 @@ public class Plant: NSManagedObject {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Plant> {
         return NSFetchRequest<Plant>(entityName: "Plant")
     }
+    
+    func waterPlant(context: NSManagedObjectContext) {
+        lastWatered = Date()
+        
+        do {
+            try context.save()
+            print("Watered plant successfully\n\(self)")
+        } catch {
+            print("Erroring watering plant\n\(error)")
+        }
+    }
 
     @NSManaged public var name_: String?
     @NSManaged public var location_: String?
@@ -118,7 +129,7 @@ extension Plant {
         // Check if app has permission to schedule notifications, may ask user for permission
         guard await authorizeIfNeeded() else { return }
         
-        var context = PersistenceController.shared.container.viewContext
+        let context = PersistenceController.shared.container.viewContext
         
         // Clear pending notifications
         let notificationCenter = UNUserNotificationCenter.current()
