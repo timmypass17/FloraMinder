@@ -24,7 +24,7 @@ struct HomeView: View {
         NavigationStack {
             List {
                 ForEach(plants) { section in
-                    Section(header: Text("\(section.id) (\(section.count))")) {
+                    Section(header: Text("\(section.id)")) {
                         ForEach(section) { plant in
                             NavigationLink {
                                 DetailView(plant: plant)
@@ -66,7 +66,7 @@ struct HomeView: View {
                 }
             }
             .listStyle(.plain)
-            .navigationTitle("My Plants")
+            .navigationTitle("My Garden")
         }
     }
 }

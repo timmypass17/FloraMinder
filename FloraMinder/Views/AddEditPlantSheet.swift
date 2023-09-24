@@ -27,10 +27,9 @@ struct AddEditPlantSheet: View {
                 Section("Plant Information") {
                     TextField("Plant Name", text: $addEditPlantViewModel.name)
                     TextField("Location", text: $addEditPlantViewModel.location)
-                    DatePicker("Last Watered", selection: $addEditPlantViewModel.lastWatered, displayedComponents: .date)
                 }
                 
-                Section("Water Interval") {
+                Section("Water Information") {
                     NavigationLink {
                         SelectWaterIntervalView(waterTimeInterval: $addEditPlantViewModel.waterTimeInterval, unit: $addEditPlantViewModel.unit)
                     } label: {
@@ -41,6 +40,8 @@ struct AddEditPlantSheet: View {
                                 .foregroundColor(.secondary)
                         }
                     }
+                    
+                    DatePicker("Last Watered", selection: $addEditPlantViewModel.lastWatered, displayedComponents: .date)
                 }
                 Section {
                     Toggle("Enable Watering Reminders", isOn: $addEditPlantViewModel.isNotificationEnabled)

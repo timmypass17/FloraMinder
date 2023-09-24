@@ -12,20 +12,31 @@ struct ScheduleCellView: View {
     
     var body: some View {
         VStack {
-            if let imageFilePath = plant.imageFilePath,
-                let image = UIImage(contentsOfFile: imageFilePath) {
-                Image(uiImage: image )
-                    .resizable()
-                    .frame(width: 50, height: 50)
-                    .clipShape(Circle())
-            } else {
-                Image(systemName: "camera.macro")
-                    .font(.title)
-                    .foregroundColor(.white)
-                    .frame(width: 50, height: 50)
-                    .background {
-                        Circle().fill(.regularMaterial)
-                    }
+            Group {
+                if let imageFilePath = plant.imageFilePath,
+                   let image = UIImage(contentsOfFile: imageFilePath) {
+                    Image(uiImage: image )
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                        .clipShape(Circle())
+                } else {
+                    Image(systemName: "camera.macro")
+                        .font(.title)
+                        .foregroundColor(.white)
+                        .frame(width: 50, height: 50)
+                        .background {
+                            Circle().fill(.regularMaterial)
+                        }
+                }
+            }
+            .overlay(alignment: .bottomTrailing) {
+                if plant.plantIsReadyToWater {
+                    Image(systemName: "sparkles")
+                        .symbolRenderingMode(.multicolor)
+                } else {
+                    Image(systemName: "clock")
+                        .symbolRenderingMode(.multicolor)
+                }
             }
             
             Text(plant.name)

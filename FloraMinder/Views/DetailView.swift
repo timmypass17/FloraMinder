@@ -55,13 +55,6 @@ struct DetailView: View {
                         Text(detailViewModel.plant.location)
                             .foregroundColor(.secondary)
                     }
-                    
-                    HStack {
-                        Label("Last Watered", systemImage: "clock")
-                        Spacer()
-                        Text("\(plant.lastWatered.formatted(date: .abbreviated, time: .omitted))")
-                            .foregroundColor(.secondary)
-                    }
                 }
                 
                 Section("Watering Information") {
@@ -75,6 +68,21 @@ struct DetailView: View {
                     }
                     
                     HStack {
+                        Label("Last Watered", systemImage: "drop")
+                        Spacer()
+                        Text("\(plant.lastWatered.formatted(date: .abbreviated, time: .omitted))")
+                            .foregroundColor(.secondary)
+                    }
+                    
+                    HStack {
+                        Label("Water Due", systemImage: "alarm")
+                        
+                        Spacer()
+                        Text("\(detailViewModel.plant.nextWateringDate.formatted(date: .abbreviated, time: .omitted))")
+                            .foregroundColor(.secondary)
+                    }
+                    
+                    HStack {
                         Label("Time Remaining", systemImage: "clock")
                         
                         Spacer()
@@ -83,14 +91,6 @@ struct DetailView: View {
                         
                     }
                     
-                    HStack {
-                        Label("Water Due", systemImage: "clock")
-                        
-                        Spacer()
-                        Text("\(detailViewModel.plant.nextWateringDate.formatted(date: .abbreviated, time: .omitted))")
-                            .foregroundColor(.secondary)
-                        
-                    }
                 }
                 
                 // Section("Screen shots")

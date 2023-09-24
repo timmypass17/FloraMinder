@@ -41,7 +41,7 @@ class AddEditPlantViewModel: ObservableObject {
         self.plant = plant
         name = plant.name
         location = plant.location
-        lastWatered = plant.nextWateringDate
+        lastWatered = plant.lastWatered
         waterTimeInterval = plant.interval
         unit = Int(plant.unit)
         
@@ -93,13 +93,15 @@ class AddEditPlantViewModel: ObservableObject {
         
         CalendarModel.shared.changedDate = plant.nextWateringDate   // original due date
         
+        let newWateringDate = Calendar.current.date(byAdding: waterTimeInterval.calendarUnit, value: Int(unit), to: lastWatered) ?? Date()
+
         plant.name = name
         plant.location = location
-        plant.nextWateringDate = Calendar.current.date(byAdding: waterTimeInterval.calendarUnit, value: Int(unit), to: lastWatered) ?? Date()
+        plant.nextWateringDate = newWateringDate
         plant.interval = waterTimeInterval
         plant.unit = Int32(unit)
         
-        CalendarModel.shared.movedDate = plant.nextWateringDate // new moved due date
+        CalendarModel.shared.movedDate = newWateringDate // new moved due date
 
         
         // Save the image data to the file path

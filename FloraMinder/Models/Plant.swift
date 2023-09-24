@@ -35,8 +35,13 @@ public class Plant: NSManagedObject {
     
     func water(context: NSManagedObjectContext) {
         CalendarModel.shared.changedDate = nextWateringDate
-        nextWateringDate_ = Calendar.current.date(byAdding: interval.calendarUnit, value: Int(unit), to: .now) ?? Date()
         
+        let newWateringDate = Calendar.current.date(byAdding: interval.calendarUnit, value: Int(unit), to: .now) ?? Date()
+        
+        nextWateringDate_ = newWateringDate
+        
+        CalendarModel.shared.movedDate = newWateringDate
+
         do {
             try context.save()
             print("Watered plant successfully\n\(self)")
