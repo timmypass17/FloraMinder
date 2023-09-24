@@ -26,6 +26,9 @@
 		32B49EBB2AA7B33B0005319E /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B49EBA2AA7B33B0005319E /* HomeViewModel.swift */; };
 		32B49EC12AAA2E8D0005319E /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B49EC02AAA2E8D0005319E /* DetailViewModel.swift */; };
 		32B49EC32AAA8C670005319E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32B49EC22AAA8C670005319E /* AppDelegate.swift */; };
+		32F7C8D72ABE348400ADFAED /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F7C8D62ABE348400ADFAED /* CalendarView.swift */; };
+		32F7C8D92ABFD13800ADFAED /* CalendarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F7C8D82ABFD13800ADFAED /* CalendarModel.swift */; };
+		32F7C8DB2AC0AF1A00ADFAED /* ScheduleCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F7C8DA2AC0AF1A00ADFAED /* ScheduleCellView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +64,9 @@
 		32B49EBA2AA7B33B0005319E /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		32B49EC02AAA2E8D0005319E /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		32B49EC22AAA8C670005319E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		32F7C8D62ABE348400ADFAED /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		32F7C8D82ABFD13800ADFAED /* CalendarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarModel.swift; sourceTree = "<group>"; };
+		32F7C8DA2AC0AF1A00ADFAED /* ScheduleCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCellView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +128,7 @@
 				32B49EBA2AA7B33B0005319E /* HomeViewModel.swift */,
 				32B49EC02AAA2E8D0005319E /* DetailViewModel.swift */,
 				32B49EC22AAA8C670005319E /* AppDelegate.swift */,
+				32F7C8D82ABFD13800ADFAED /* CalendarModel.swift */,
 			);
 			path = FloraMinder;
 			sourceTree = "<group>";
@@ -145,6 +152,8 @@
 				3281CC4F2AA674730074F995 /* AddEditPlantSheet.swift */,
 				3281CC502AA674730074F995 /* SelectWaterIntervalView.swift */,
 				3281CC512AA674730074F995 /* EditableCircularPlantImage.swift */,
+				32F7C8D62ABE348400ADFAED /* CalendarView.swift */,
+				32F7C8DA2AC0AF1A00ADFAED /* ScheduleCellView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -266,8 +275,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				32B49EBB2AA7B33B0005319E /* HomeViewModel.swift in Sources */,
+				32F7C8D92ABFD13800ADFAED /* CalendarModel.swift in Sources */,
 				3281CC5A2AA674730074F995 /* HomeView.swift in Sources */,
 				3281CC572AA674730074F995 /* DetailView.swift in Sources */,
+				32F7C8D72ABE348400ADFAED /* CalendarView.swift in Sources */,
+				32F7C8DB2AC0AF1A00ADFAED /* ScheduleCellView.swift in Sources */,
 				3281CC5D2AA674730074F995 /* SelectWaterIntervalView.swift in Sources */,
 				3281CC3E2AA6742E0074F995 /* Persistence.swift in Sources */,
 				3281CC602AA674730074F995 /* Plant.swift in Sources */,

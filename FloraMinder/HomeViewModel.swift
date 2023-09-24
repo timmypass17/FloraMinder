@@ -13,8 +13,9 @@ class HomeViewModel: ObservableObject {
     var context = PersistenceController.shared.container.viewContext
 
     func deletePlant(_ plant: Plant) {        
+        CalendarModel.shared.changedDate = plant.nextWateringDate
+        print("Plant to delete: \(plant)")
         context.delete(plant)
-        
         do {
             try context.save()
             print("Removed plant successfully\n\(plant)")

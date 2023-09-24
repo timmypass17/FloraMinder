@@ -82,6 +82,15 @@ struct DetailView: View {
                             .foregroundColor(.secondary)
                         
                     }
+                    
+                    HStack {
+                        Label("Water Due", systemImage: "clock")
+                        
+                        Spacer()
+                        Text("\(detailViewModel.plant.nextWateringDate.formatted(date: .abbreviated, time: .omitted))")
+                            .foregroundColor(.secondary)
+                        
+                    }
                 }
                 
                 // Section("Screen shots")

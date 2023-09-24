@@ -13,13 +13,29 @@ import UserNotifications
 
 @objc(Plant)
 public class Plant: NSManagedObject {
-
+    @NSManaged public var name_: String?
+    @NSManaged public var location_: String?
+    @NSManaged public var interval_: String?
+    @NSManaged public var unit: Int32
+    @NSManaged public var nextWateringDate_: Date?
+    @NSManaged public var imageFilePath: String?
+    
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Plant> {
         return NSFetchRequest<Plant>(entityName: "Plant")
     }
     
-    func waterPlant(context: NSManagedObjectContext) {
-        lastWatered = Date()
+    static func predicateForDate(date: Date) -> NSPredicate {
+        let startOfDay = Calendar.current.startOfDay(for: date)
+        let endOfDay = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: startOfDay)!
+        let predicate = NSPredicate(format: "nextWateringDate_ >= %@ AND nextWateringDate_ <= %@", startOfDay as NSDate, endOfDay as NSDate)
+        
+        return predicate
+    }
+    
+    
+    func water(context: NSManagedObjectContext) {
+        CalendarModel.shared.changedDate = nextWateringDate
+        nextWateringDate_ = Calendar.current.date(byAdding: interval.calendarUnit, value: Int(unit), to: .now) ?? Date()
         
         do {
             try context.save()
@@ -28,23 +44,16 @@ public class Plant: NSManagedObject {
             print("Erroring watering plant\n\(error)")
         }
     }
-
-    @NSManaged public var name_: String?
-    @NSManaged public var location_: String?
-    @NSManaged public var interval_: String?
-    @NSManaged public var unit: Int32
-    @NSManaged public var lastWatered_: Date?
-    @NSManaged public var imageFilePath: String?
 }
 
 extension Plant : Identifiable { }
 
 extension Plant {
     
-    var nextWateringDate: Date {
-        let nextWateringDate = Calendar.current.date(byAdding: interval.calendarUnit, value: Int(unit), to: lastWatered) ?? Date()
+    var lastWatered: Date {
+        let lastWatered = Calendar.current.date(byAdding: interval.calendarUnit, value: -Int(unit), to: nextWateringDate) ?? Date()
         // Set the time components to noon (12:00 PM) or users preference
-        return Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: nextWateringDate) ?? Date()
+        return Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: lastWatered) ?? Date()
     }
     
     var plantIsReadyToWater: Bool {
@@ -116,9 +125,9 @@ extension Plant {
         set { interval_ = newValue.rawValue }
     }
     
-    var lastWatered: Date {
-        get { lastWatered_ ?? Date() }
-        set { lastWatered_ = newValue}
+    var nextWateringDate: Date {
+        get { nextWateringDate_ ?? Date() }
+        set { nextWateringDate_ = newValue}
     }
 }
 

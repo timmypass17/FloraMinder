@@ -22,7 +22,10 @@ struct FloraMinderApp: App {
                         Label("Garden", systemImage: "leaf.fill")
                     }
                 
-//                Text("Schedule") // today, tomarrow... and show past watering history?
+                ScheduleView() // today, tomarrow... and show past watering history?
+                    .tabItem {
+                        Label("Calendar", systemImage: "calendar")
+                    }
 //                Text("Hello World")
             }
             .environment(\.managedObjectContext, persistenceController.container.viewContext)

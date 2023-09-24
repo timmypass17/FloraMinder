@@ -22,6 +22,6 @@ class DetailViewModel: ObservableObject {
     
     func waterPlantButtonTapped() async {
         waterButtonIsEnabled = false
-        plant.waterPlant(context: context)
+        plant.water(context: context)
     }
 }

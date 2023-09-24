@@ -10,6 +10,8 @@ import CoreData
 import SwiftUI
 import PhotosUI
 
+
+@MainActor
 class AddEditPlantViewModel: ObservableObject {
     @Published var name = ""
     @Published var location = ""
@@ -39,7 +41,7 @@ class AddEditPlantViewModel: ObservableObject {
         self.plant = plant
         name = plant.name
         location = plant.location
-        lastWatered = plant.lastWatered
+        lastWatered = plant.nextWateringDate
         waterTimeInterval = plant.interval
         unit = Int(plant.unit)
         
@@ -59,7 +61,7 @@ class AddEditPlantViewModel: ObservableObject {
         // 2. Set the properties of the managed object as needed.
         plant.name = name
         plant.location = location
-        plant.lastWatered = lastWatered
+        plant.nextWateringDate = Calendar.current.date(byAdding: waterTimeInterval.calendarUnit, value: Int(unit), to: lastWatered) ?? Date()
         plant.interval = waterTimeInterval
         plant.unit = Int32(unit)
         
@@ -75,6 +77,7 @@ class AddEditPlantViewModel: ObservableObject {
             break
         }
         
+        CalendarModel.shared.changedDate = plant.nextWateringDate
         // 3. Save the managed object context to persist the new object to the Core Data store.
         do {
             try context.save()
@@ -85,14 +88,19 @@ class AddEditPlantViewModel: ObservableObject {
     }
     
     func updatePlant() async {
+
         guard let plant = plant else { return }
+        
+        CalendarModel.shared.changedDate = plant.nextWateringDate   // original due date
+        
         plant.name = name
         plant.location = location
-        plant.lastWatered = lastWatered
+        plant.nextWateringDate = Calendar.current.date(byAdding: waterTimeInterval.calendarUnit, value: Int(unit), to: lastWatered) ?? Date()
         plant.interval = waterTimeInterval
         plant.unit = Int32(unit)
         
-        // TODO: Update notification
+        CalendarModel.shared.movedDate = plant.nextWateringDate // new moved due date
+
         
         // Save the image data to the file path
         switch imageState {

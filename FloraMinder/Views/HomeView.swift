@@ -22,7 +22,6 @@ struct HomeView: View {
     
     var body: some View {
         NavigationStack {
-            
             List {
                 ForEach(plants) { section in
                     Section(header: Text("\(section.id) (\(section.count))")) {
@@ -35,7 +34,7 @@ struct HomeView: View {
                             }
                             .swipeActions(edge: .leading) {
                                 Button {
-                                    plant.waterPlant(context: context)
+                                    plant.water(context: context)
                                 } label: {
                                     Label("Water Plant", systemImage: "drop")
                                 }
@@ -50,25 +49,24 @@ struct HomeView: View {
                             }
                         }
                     }
-                    
                 }
             }
-            .listStyle(.plain)
-            .navigationTitle("My Plants")
+            .sheet(isPresented: $homeViewModel.isPresentingNewPlantView) {
+                AddEditPlantSheet(plant: nil, isPresentingAddEditPlantSheet: $homeViewModel.isPresentingNewPlantView)
+                    .environment(\.managedObjectContext, context)
+            }
             .toolbar {
                 ToolbarItem {
                     Button {
                         homeViewModel.isPresentingNewPlantView = true
                     } label: {
                         Label("Add Plant", systemImage: "plus")
-
+                        
                     }
                 }
             }
-        }
-        .sheet(isPresented: $homeViewModel.isPresentingNewPlantView) {
-            AddEditPlantSheet(plant: nil, isPresentingAddEditPlantSheet: $homeViewModel.isPresentingNewPlantView)
-                .environment(\.managedObjectContext, context)
+            .listStyle(.plain)
+            .navigationTitle("My Plants")
         }
     }
 }
