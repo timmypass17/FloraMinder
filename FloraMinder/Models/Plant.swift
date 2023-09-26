@@ -9,6 +9,7 @@
 import Foundation
 import CoreData
 import UserNotifications
+import UIKit
 
 
 @objc(Plant)
@@ -34,12 +35,12 @@ public class Plant: NSManagedObject {
     
     
     func water(context: NSManagedObjectContext) {
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        
         CalendarModel.shared.changedDate = nextWateringDate
-        
-        let newWateringDate = Calendar.current.date(byAdding: interval.calendarUnit, value: Int(unit), to: .now) ?? Date()
-        
+        var newWateringDate = Calendar.current.date(byAdding: interval.calendarUnit, value: Int(unit), to: .now) ?? Date()
+        newWateringDate = Calendar.current.startOfDay(for: newWateringDate)
         nextWateringDate_ = newWateringDate
-        
         CalendarModel.shared.movedDate = newWateringDate
 
         do {
@@ -53,71 +54,54 @@ public class Plant: NSManagedObject {
 
 extension Plant : Identifiable { }
 
-extension Plant {
-    
-    var lastWatered: Date {
-        let lastWatered = Calendar.current.date(byAdding: interval.calendarUnit, value: -Int(unit), to: nextWateringDate) ?? Date()
-        // Set the time components to noon (12:00 PM) or users preference
-        return Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: lastWatered) ?? Date()
-    }
-    
-    var plantIsReadyToWater: Bool {
-        // Convert the date to a timestamp (integer) in seconds
-        let startTimestampInDays = Date().timeIntervalSince1970
-        let endTimestampInDays = nextWateringDate.timeIntervalSince1970
-        
-        let secondsRemaining = max(endTimestampInDays - startTimestampInDays, 0)
-        return secondsRemaining > 0 ? false : true
-    }
-    
-    var timeRemainingToWaterPlant: String {
-        // Convert the date to a timestamp (integer) in seconds
-        let startTimestampInDays = Date().timeIntervalSince1970
-        let endTimestampInDays = nextWateringDate.timeIntervalSince1970
-        
-        let secondsRemaining = max(endTimestampInDays - startTimestampInDays, 0)
-        if plantIsReadyToWater {
-            return "Ready to water"
-        }
-        return timeIntervalToString(seconds: secondsRemaining)
-    }
-    
-    private func timeIntervalToString(seconds: TimeInterval) -> String {
-        let days = Int(seconds) / 86400
-        let hours = (Int(seconds) % 86400) / 3600
-        let minutes = (Int(seconds) % 3600) / 60
 
-        // > 1 day
-        if days > 0 {
-            // Round up days (ex. 1 day, 17 hr -> 2 days)
-            if hours > 12 {
-                return "\(days + 1) days"
-            } else {
-                // 2 day, 8 hr -> 2 day
-                return "\(days) days"
-            }
-        }
-        // 1 - 24 hours
-        else if hours > 0 {
-            // Round up hours (ex. 17 hr -> 1 day)
-            if hours > 12 {
-                return "1 day"
-            } else {
-                // Show minutes if < 12 hr
-                // 11 hr, 54 mins
-                return "\(hours) hr, \(minutes) mins"
-            }
-        // 0 - 60 minutes
-        } else {
-            return "\(minutes) mins"
-        }
+extension Plant {
+    typealias Day = Int
+    
+    var lastWateredDate: Date {
+        let lastWatered = Calendar.current.date(byAdding: interval.calendarUnit, value: -Int(unit), to: nextWateringDate) ?? Date()
+        return Calendar.current.startOfDay(for: lastWatered)
+    }
+
+    var daysRemainingUntillNextWatering: Day {
+        let today = Calendar.current.startOfDay(for: Date())
+        let daysRemaining = Calendar.current.dateComponents([.day], from: today, to: nextWateringDate).day ?? 0
+        return max(daysRemaining, 0)
     }
     
+    var daysPassedSinceLastWatering: Day {
+        let today = Calendar.current.startOfDay(for: Date())
+        let days = Calendar.current.dateComponents([.day], from: lastWateredDate, to: today).day ?? 0
+        return days
+    }
+    
+    var totalDaysBetweenWatering: Day {
+        let days = Calendar.current.dateComponents([.day], from: lastWateredDate, to: nextWateringDate).day ?? 0
+        return days
+    }
+    
+    var isReadyToWater: Bool {
+        return Date() >= nextWateringDate
+    }
+    
+    var isDueToday: Bool {
+        return Calendar.current.isDate(.now, inSameDayAs: nextWateringDate)
+    }
+    
+    var daysUntilNextWateringFormatted: String {
+        if daysRemainingUntillNextWatering == 0 {
+            return "Ready to water"
+        } else if daysRemainingUntillNextWatering == 1 {
+            return "1 day"
+        } else {
+            return "\(daysRemainingUntillNextWatering) days"
+        }
+    }
+
     var name: String {
         get { name_ ?? "" }
         set { name_ = newValue}
     }
-    
     
     @objc // @objc attribute for it to function as a section identifier
     var location: String {
@@ -132,7 +116,13 @@ extension Plant {
     
     var nextWateringDate: Date {
         get { nextWateringDate_ ?? Date() }
-        set { nextWateringDate_ = newValue}
+        set { nextWateringDate_ = Calendar.current.startOfDay(for: newValue) }
+    }
+    
+    @objc
+    var nextWateringDateString: String {
+        get { nextWateringDate_?.formatted(date: .abbreviated, time: .omitted) ?? "" }
+
     }
 }
 
@@ -151,9 +141,8 @@ extension Plant {
 
         // Fetch all plants
         var plants: [Plant] = []
-        let fetchRequest: NSFetchRequest<Plant> = Plant.fetchRequest()
         do {
-            plants = try context.fetch(fetchRequest)
+            plants = try context.fetch(Plant.fetchRequest())
         } catch {
             print("Error fetching plant data: \(error)")
         }
@@ -170,7 +159,7 @@ extension Plant {
             content.categoryIdentifier = Plant.notificationCategoryId
             
             // Create the notification request
-            let triggerDateComponents = Calendar.current.dateComponents([.minute, .hour, .day, .month, .year], from: nextWateringDate)
+            let triggerDateComponents = Calendar.current.dateComponents([.day, .month, .year], from: nextWateringDate)
             let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDateComponents, repeats: false)
             let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
             

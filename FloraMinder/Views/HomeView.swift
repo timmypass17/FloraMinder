@@ -22,51 +22,53 @@ struct HomeView: View {
     
     var body: some View {
         NavigationStack {
-            List {
-                ForEach(plants) { section in
-                    Section(header: Text("\(section.id)")) {
-                        ForEach(section) { plant in
-                            NavigationLink {
-                                DetailView(plant: plant)
-                            } label: {
-                                PlantCellView(plant: plant)
-                                    .padding(.vertical, 5)
-                            }
-                            .swipeActions(edge: .leading) {
-                                Button {
-                                    plant.water(context: context)
+            VStack(spacing: 0) {
+                List {
+                    ForEach(plants) { section in
+                        Section(header: Text("\(section.id)")) {
+                            ForEach(section) { plant in
+                                NavigationLink {
+                                    DetailView(plant: plant)
                                 } label: {
-                                    Label("Water Plant", systemImage: "drop")
+                                    PlantCellView(plant: plant)
+                                        .padding(.vertical, 5)
                                 }
-                                .tint(.blue)
-                            }
-                            .swipeActions(edge: .trailing) {
-                                Button(role: .destructive) {
-                                    homeViewModel.deletePlant(plant)
-                                } label: {
-                                    Label("Delete", systemImage: "trash")
+                                .swipeActions(edge: .leading) {
+                                    Button {
+                                        plant.water(context: context)
+                                    } label: {
+                                        Label("Water Plant", systemImage: "drop")
+                                    }
+                                    .tint(.blue)
+                                }
+                                .swipeActions(edge: .trailing) {
+                                    Button(role: .destructive) {
+                                        homeViewModel.deletePlant(plant)
+                                    } label: {
+                                        Label("Delete", systemImage: "trash")
+                                    }
                                 }
                             }
                         }
                     }
                 }
-            }
-            .sheet(isPresented: $homeViewModel.isPresentingNewPlantView) {
-                AddEditPlantSheet(plant: nil, isPresentingAddEditPlantSheet: $homeViewModel.isPresentingNewPlantView)
-                    .environment(\.managedObjectContext, context)
-            }
-            .toolbar {
-                ToolbarItem {
-                    Button {
-                        homeViewModel.isPresentingNewPlantView = true
-                    } label: {
-                        Label("Add Plant", systemImage: "plus")
-                        
+                .sheet(isPresented: $homeViewModel.isPresentingNewPlantView) {
+                    AddEditPlantSheet(plant: nil, isPresentingAddEditPlantSheet: $homeViewModel.isPresentingNewPlantView)
+                        .environment(\.managedObjectContext, context)
+                }
+                .toolbar {
+                    ToolbarItem {
+                        Button {
+                            homeViewModel.isPresentingNewPlantView = true
+                        } label: {
+                            Label("Add Plant", systemImage: "plus")
+                            
+                        }
                     }
                 }
-            }
-            .listStyle(.plain)
+                .listStyle(.plain)
             .navigationTitle("My Garden")
+            }
         }
     }
 }

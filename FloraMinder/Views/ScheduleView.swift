@@ -19,7 +19,7 @@ struct ScheduleView: View {
     var plants: FetchedResults<Plant>
         
     let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
-
+    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -27,7 +27,6 @@ struct ScheduleView: View {
                     dateSelected: $dateSelected,
                     interval: DateInterval(start: .distantPast, end: .distantFuture)
                 )
-//                .scaleEffect(0.9)
                 Divider()
                 
                 Text("Tasks")
@@ -49,8 +48,8 @@ struct ScheduleView: View {
                                     DetailView(plant: plant)
                                 } label: {
                                     ScheduleCellView(plant: plant)
-
                                 }
+                                .buttonStyle(.plain)
                             }
                         }
                     }

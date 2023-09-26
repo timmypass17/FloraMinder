@@ -30,7 +30,7 @@ struct ScheduleCellView: View {
                 }
             }
             .overlay(alignment: .bottomTrailing) {
-                if plant.plantIsReadyToWater {
+                if plant.isReadyToWater {
                     Image(systemName: "sparkles")
                         .symbolRenderingMode(.multicolor)
                 } else {
@@ -45,6 +45,7 @@ struct ScheduleCellView: View {
                 .font(.caption)
             
         }
+        .lineLimit(1)
 //        .padding()
 //        .border(.blue)
     }

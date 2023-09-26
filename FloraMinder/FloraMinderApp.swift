@@ -18,15 +18,17 @@ struct FloraMinderApp: App {
         WindowGroup {
             TabView {
                 HomeView()
-                    .tabItem {
-                        Label("Garden", systemImage: "leaf.fill")
-                    }
+                    .tabItem { Label("Garden", systemImage: "leaf.fill") }
+                
+                UpcomingTasksView() // today, tomarrow... and show past watering history?
+                    .tabItem { Label("Tasks", systemImage: "checklist") }
                 
                 ScheduleView() // today, tomarrow... and show past watering history?
-                    .tabItem {
-                        Label("Calendar", systemImage: "calendar")
-                    }
-//                Text("Hello World")
+                    .tabItem { Label("Calendar", systemImage: "calendar") }
+                
+                SettingsView()
+                    .tabItem { Label("Settings", systemImage: "gearshape.fill") }
+
             }
             .environment(\.managedObjectContext, persistenceController.container.viewContext)
             .onChange(of: scenePhase) { newScenePhase in

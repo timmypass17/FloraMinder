@@ -41,7 +41,7 @@ class AddEditPlantViewModel: ObservableObject {
         self.plant = plant
         name = plant.name
         location = plant.location
-        lastWatered = plant.lastWatered
+        lastWatered = plant.lastWateredDate
         waterTimeInterval = plant.interval
         unit = Int(plant.unit)
         

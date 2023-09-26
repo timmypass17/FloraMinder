@@ -70,7 +70,7 @@ struct DetailView: View {
                     HStack {
                         Label("Last Watered", systemImage: "drop")
                         Spacer()
-                        Text("\(plant.lastWatered.formatted(date: .abbreviated, time: .omitted))")
+                        Text("\(plant.lastWateredDate.formatted(date: .abbreviated, time: .omitted))")
                             .foregroundColor(.secondary)
                     }
                     
@@ -86,7 +86,7 @@ struct DetailView: View {
                         Label("Time Remaining", systemImage: "clock")
                         
                         Spacer()
-                        Text("\(detailViewModel.plant.timeRemainingToWaterPlant)")
+                        Text("\(detailViewModel.plant.daysUntilNextWateringFormatted)")
                             .foregroundColor(.secondary)
                         
                     }
@@ -112,6 +112,11 @@ struct DetailView: View {
             .tint(.blue)
             .disabled(!detailViewModel.waterButtonIsEnabled)
             
+        }
+        .onAppear {
+            print("Last: \(plant.lastWateredDate)")
+            print("Next: \(plant.nextWateringDate)")
+
         }
         .navigationTitle(detailViewModel.plant.name)
         .toolbar {

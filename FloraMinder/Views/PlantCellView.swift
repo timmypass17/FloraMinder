@@ -11,12 +11,14 @@ struct PlantCellView: View {
     @ObservedObject var plant: Plant
     
     var imageString: String {
-        if plant.plantIsReadyToWater {
+        if plant.isReadyToWater {
             return "sparkles"
         } else {
             return "clock"
         }
     }
+    
+    let oneDayInSeconds: TimeInterval = 24 * 60 * 60
     
     var body: some View {
         HStack {
@@ -24,6 +26,7 @@ struct PlantCellView: View {
                 let image = UIImage(contentsOfFile: imageFilePath) {
                 Image(uiImage: image )
                     .resizable()
+                    .scaledToFill()
                     .frame(width: 50, height: 50)
                     .clipShape(Circle())
             } else {
@@ -39,15 +42,14 @@ struct PlantCellView: View {
             VStack(alignment: .leading) {
                 Text(plant.name)
                 
-                // Updates UI every minute
-                TimelineView(.everyMinute) { context in
-                    ProgressView(value: currentWaterTime(), total: totalWaterTime()) {
+                TimelineView(.periodic(from: plant.lastWateredDate, by: oneDayInSeconds)) { context in
+                    ProgressView(value: Float(plant.daysPassedSinceLastWatering), total: Float(plant.totalDaysBetweenWatering)) {
                         HStack {
                             Label("Every \(plant.unit) \(plant.interval.rawValue)", systemImage: "calendar")
                                 .labelStyle(.titleAndIcon)
                             Spacer()
                             // Use sparkles to show ready to water
-                            Label("\(plant.timeRemainingToWaterPlant)", systemImage: imageString)
+                            Label("\(plant.daysUntilNextWateringFormatted)", systemImage: imageString)
                                 .labelStyle(.titleAndIcon)
                                 .symbolRenderingMode(.multicolor)
                         }
@@ -59,23 +61,6 @@ struct PlantCellView: View {
             }
             .padding(.leading, 4)
         }
-    }
-    
-    func currentWaterTime() -> Float {
-        let startTimestampInDays = Int(plant.lastWatered.timeIntervalSince1970)
-        let endTimestampInDays = Int(Date().timeIntervalSince1970)
-        let progress = endTimestampInDays - startTimestampInDays
-        
-        return Float(progress)
-    }
-    
-    func totalWaterTime() -> Float {
-        // Convert the date to a timestamp (integer) in seconds
-        let startTimestampInDays = Int(plant.lastWatered.timeIntervalSince1970)
-        let endTimestampInDays = Int(plant.nextWateringDate.timeIntervalSince1970)
-        
-        let total = endTimestampInDays - startTimestampInDays
-        return Float(total)
     }
 }
 

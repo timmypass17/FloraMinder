@@ -29,6 +29,8 @@
 		32F7C8D72ABE348400ADFAED /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F7C8D62ABE348400ADFAED /* CalendarView.swift */; };
 		32F7C8D92ABFD13800ADFAED /* CalendarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F7C8D82ABFD13800ADFAED /* CalendarModel.swift */; };
 		32F7C8DB2AC0AF1A00ADFAED /* ScheduleCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F7C8DA2AC0AF1A00ADFAED /* ScheduleCellView.swift */; };
+		32F7C8DD2AC1FA8E00ADFAED /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F7C8DC2AC1FA8D00ADFAED /* SettingsView.swift */; };
+		32F7C8DF2AC355F400ADFAED /* UpcomingTasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F7C8DE2AC355F300ADFAED /* UpcomingTasksView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +69,8 @@
 		32F7C8D62ABE348400ADFAED /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		32F7C8D82ABFD13800ADFAED /* CalendarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarModel.swift; sourceTree = "<group>"; };
 		32F7C8DA2AC0AF1A00ADFAED /* ScheduleCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCellView.swift; sourceTree = "<group>"; };
+		32F7C8DC2AC1FA8D00ADFAED /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		32F7C8DE2AC355F300ADFAED /* UpcomingTasksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingTasksView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +158,8 @@
 				3281CC512AA674730074F995 /* EditableCircularPlantImage.swift */,
 				32F7C8D62ABE348400ADFAED /* CalendarView.swift */,
 				32F7C8DA2AC0AF1A00ADFAED /* ScheduleCellView.swift */,
+				32F7C8DC2AC1FA8D00ADFAED /* SettingsView.swift */,
+				32F7C8DE2AC355F300ADFAED /* UpcomingTasksView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -279,12 +285,14 @@
 				3281CC5A2AA674730074F995 /* HomeView.swift in Sources */,
 				3281CC572AA674730074F995 /* DetailView.swift in Sources */,
 				32F7C8D72ABE348400ADFAED /* CalendarView.swift in Sources */,
+				32F7C8DD2AC1FA8E00ADFAED /* SettingsView.swift in Sources */,
 				32F7C8DB2AC0AF1A00ADFAED /* ScheduleCellView.swift in Sources */,
 				3281CC5D2AA674730074F995 /* SelectWaterIntervalView.swift in Sources */,
 				3281CC3E2AA6742E0074F995 /* Persistence.swift in Sources */,
 				3281CC602AA674730074F995 /* Plant.swift in Sources */,
 				3281CC352AA6742C0074F995 /* FloraMinderApp.swift in Sources */,
 				3281CC5E2AA674730074F995 /* EditableCircularPlantImage.swift in Sources */,
+				32F7C8DF2AC355F400ADFAED /* UpcomingTasksView.swift in Sources */,
 				3281CC5C2AA674730074F995 /* AddEditPlantSheet.swift in Sources */,
 				3281CC592AA674730074F995 /* ScheduleView.swift in Sources */,
 				3281CC5B2AA674730074F995 /* DetailEditPlantView.swift in Sources */,
