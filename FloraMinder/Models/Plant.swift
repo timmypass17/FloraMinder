@@ -132,11 +132,13 @@ extension Plant {
     static let notificationCategoryId = "WaterPlantNotification"
     
     static func scheduleWaterReminderNotification() async {
+        print("scheduleWaterReminderNotification")
         // Check if app has permission to schedule notifications, may ask user for permission
         guard await authorizeIfNeeded(),
               UserDefaults.standard.bool(forKey: "notificationIsOn")
         else { return }
-    
+        print("scheduleWaterReminderNotification success")
+
         let context = PersistenceController.shared.container.viewContext
         
         // Clear pending notifications
@@ -163,7 +165,15 @@ extension Plant {
             content.categoryIdentifier = Plant.notificationCategoryId
             
             // Create the notification request
-            let triggerDateComponents = Calendar.current.dateComponents([.day, .month, .year], from: nextWateringDate)
+            var triggerDateComponents = Calendar.current.dateComponents([.year, .month, .day], from: nextWateringDate)
+            // Use user's preferred notificaiton time
+            if let notificationTime = UserDefaults.standard.string(forKey: "notificationTime") {
+                print(Date(timeIntervalSinceReferenceDate: Double(notificationTime) ?? 0.0).formatted(date: .abbreviated, time: .shortened))
+                let triggerTime = Date(timeIntervalSinceReferenceDate: Double(notificationTime) ?? 0.0)
+                let timeComponents = Calendar.current.dateComponents([.hour, .minute], from: triggerTime)
+                triggerDateComponents.hour = timeComponents.hour
+                triggerDateComponents.minute = timeComponents.minute
+            }
             let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDateComponents, repeats: false)
             let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
             

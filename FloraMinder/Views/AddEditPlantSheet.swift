@@ -17,6 +17,14 @@ struct AddEditPlantSheet: View {
         self._isPresentingAddEditPlantSheet = isPresentingAddEditPlantSheet
     }
 
+    var waterDue: Date {
+        let waterDue = Calendar.current.date(
+            byAdding: addEditPlantViewModel.waterTimeInterval.calendarUnit,
+            value: Int(addEditPlantViewModel.unit),
+            to: addEditPlantViewModel.lastWatered) ?? Date()
+        return waterDue
+    }
+    
     var body: some View {
         NavigationStack {
             Form {
@@ -41,14 +49,19 @@ struct AddEditPlantSheet: View {
                         }
                     }
                     
-                    DatePicker("Last Watered", selection: $addEditPlantViewModel.lastWatered, displayedComponents: .date)
-                }
-                Section {
-                    Toggle("Enable Watering Reminders", isOn: $addEditPlantViewModel.isNotificationEnabled)
-                } header: {
-                    Text("Notifications")
-                } footer: {
-                    Text("Receive a notification at noon to water plant.\n*You can modify this later in the settings.")
+                    DatePicker("Last Watered",
+                               selection: $addEditPlantViewModel.lastWatered,
+                               in: Date.distantPast...Date.now,
+                               displayedComponents: .date)
+                
+//                    HStack {
+//                        Text("Water Due")
+//                        
+//                        Spacer()
+//                        
+//                        Text(waterDue.formatted(date: .abbreviated, time: .omitted))
+//                            .foregroundColor(.secondary)
+//                    }
                 }
 
             }

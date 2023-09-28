@@ -7,10 +7,20 @@
 
 import SwiftUI
 
+extension Date: RawRepresentable {
+    public var rawValue: String {
+        self.timeIntervalSinceReferenceDate.description
+    }
+    
+    public init?(rawValue: String) {
+        self = Date(timeIntervalSinceReferenceDate: Double(rawValue) ?? 0.0)
+    }
+}
+
 struct SettingsView: View {
     @AppStorage("notificationIsOn") var notificationsIsOn = false
+    @AppStorage("notificationTime") var notificationTime = Calendar.current.date(from: DateComponents(hour: 12, minute: 0))!
 
-    @State var notificationTime = DateComponents(hour: 12)  // noon
     @State var selectedSort: SortPref = .alphabetically
     
     enum SortPref: String, CaseIterable, Identifiable {
@@ -26,22 +36,14 @@ struct SettingsView: View {
                     Toggle("Enable Water Reminders", isOn: $notificationsIsOn)
                     
                     if notificationsIsOn {
-                        NavigationLink {
-                            Text("Select Date")
-                        } label: {
-                            HStack {
-                                Text("Notification Time")
-                                Spacer()
-                                Text(Calendar.current.date(from: notificationTime)?.formatted(date: .omitted, time: .shortened) ?? "Invalid Date")
-                                    .foregroundColor(.secondary)
-                            }
-                        }
+                        DatePicker("Notificaiton Time",
+                                   selection: $notificationTime, displayedComponents: .hourAndMinute)
                     }
                 } header: {
                     Text("Notifcations")
                 } footer: {
                     if notificationsIsOn {
-                        Text("Receive a notification at \(Calendar.current.date(from: notificationTime)?.formatted(date: .omitted, time: .shortened) ?? "Invalid Date") to water plant.")
+                        Text("*Receive a notification at \(notificationTime.formatted(date: .omitted, time: .shortened)) to water plants (if there are any).")
                     }
                 }
                 
