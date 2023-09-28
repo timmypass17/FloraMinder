@@ -47,14 +47,15 @@ struct PlantCellView: View {
                         HStack {
                             Label("Every \(plant.unit) \(plant.interval.rawValue)", systemImage: "calendar")
                                 .labelStyle(.titleAndIcon)
+
                             Spacer()
                             // Use sparkles to show ready to water
                             Label("\(plant.daysUntilNextWateringFormatted)", systemImage: imageString)
                                 .labelStyle(.titleAndIcon)
                                 .symbolRenderingMode(.multicolor)
                         }
-                        .foregroundColor(.secondary)
                         .font(.subheadline)
+                        .foregroundColor(.secondary)
                     }
                     .progressViewStyle(.linear)
                 }

@@ -20,8 +20,8 @@ struct FloraMinderApp: App {
                 HomeView()
                     .tabItem { Label("Garden", systemImage: "leaf.fill") }
                 
-                UpcomingTasksView() // today, tomarrow... and show past watering history?
-                    .tabItem { Label("Tasks", systemImage: "checklist") }
+//                UpcomingTasksView() // today, tomarrow... and show past watering history?
+//                    .tabItem { Label("Tasks", systemImage: "checklist") }
                 
                 ScheduleView() // today, tomarrow... and show past watering history?
                     .tabItem { Label("Calendar", systemImage: "calendar") }

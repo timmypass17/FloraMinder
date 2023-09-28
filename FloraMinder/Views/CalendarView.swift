@@ -57,7 +57,7 @@ struct CalendarView: UIViewRepresentable {
         
         @MainActor
         func calendarView(_ calendarView: UICalendarView, decorationFor dateComponents: DateComponents) -> UICalendarView.Decoration? {
-            print("decoration for : \(dateComponents)")
+//            print("decoration for : \(dateComponents)")
             let foundEvents = parent.plants
                 .filter { Calendar.current.isDate($0.nextWateringDate, inSameDayAs: dateComponents.date!)}
 

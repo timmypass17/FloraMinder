@@ -31,7 +31,8 @@ struct ScheduleCellView: View {
             }
             .overlay(alignment: .bottomTrailing) {
                 if plant.isReadyToWater {
-                    Image(systemName: "sparkles")
+                    Image(systemName: "sparkles") // sparkles
+//                        .foregroundColor(.blue)
                         .symbolRenderingMode(.multicolor)
                 } else {
                     Image(systemName: "clock")

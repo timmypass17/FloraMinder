@@ -58,25 +58,27 @@ extension Plant : Identifiable { }
 extension Plant {
     typealias Day = Int
     
+    var calendar: Calendar { Calendar.current }
+    
     var lastWateredDate: Date {
-        let lastWatered = Calendar.current.date(byAdding: interval.calendarUnit, value: -Int(unit), to: nextWateringDate) ?? Date()
+        let lastWatered = calendar.date(byAdding: interval.calendarUnit, value: -Int(unit), to: nextWateringDate) ?? Date()
         return Calendar.current.startOfDay(for: lastWatered)
     }
 
     var daysRemainingUntillNextWatering: Day {
-        let today = Calendar.current.startOfDay(for: Date())
-        let daysRemaining = Calendar.current.dateComponents([.day], from: today, to: nextWateringDate).day ?? 0
+        let today = calendar.startOfDay(for: Date())
+        let daysRemaining = calendar.dateComponents([.day], from: today, to: nextWateringDate).day ?? 0
         return max(daysRemaining, 0)
     }
     
     var daysPassedSinceLastWatering: Day {
-        let today = Calendar.current.startOfDay(for: Date())
-        let days = Calendar.current.dateComponents([.day], from: lastWateredDate, to: today).day ?? 0
+        let today = calendar.startOfDay(for: Date())
+        let days = calendar.dateComponents([.day], from: lastWateredDate, to: today).day ?? 0
         return days
     }
     
     var totalDaysBetweenWatering: Day {
-        let days = Calendar.current.dateComponents([.day], from: lastWateredDate, to: nextWateringDate).day ?? 0
+        let days = calendar.dateComponents([.day], from: lastWateredDate, to: nextWateringDate).day ?? 0
         return days
     }
     
@@ -85,7 +87,7 @@ extension Plant {
     }
     
     var isDueToday: Bool {
-        return Calendar.current.isDate(.now, inSameDayAs: nextWateringDate)
+        return calendar.isDate(.now, inSameDayAs: nextWateringDate)
     }
     
     var daysUntilNextWateringFormatted: String {
@@ -116,7 +118,7 @@ extension Plant {
     
     var nextWateringDate: Date {
         get { nextWateringDate_ ?? Date() }
-        set { nextWateringDate_ = Calendar.current.startOfDay(for: newValue) }
+        set { nextWateringDate_ = calendar.startOfDay(for: newValue) }
     }
     
     @objc
@@ -128,11 +130,13 @@ extension Plant {
 
 extension Plant {
     static let notificationCategoryId = "WaterPlantNotification"
-
+    
     static func scheduleWaterReminderNotification() async {
         // Check if app has permission to schedule notifications, may ask user for permission
-        guard await authorizeIfNeeded() else { return }
-        
+        guard await authorizeIfNeeded(),
+              UserDefaults.standard.bool(forKey: "notificationIsOn")
+        else { return }
+    
         let context = PersistenceController.shared.container.viewContext
         
         // Clear pending notifications
@@ -168,9 +172,12 @@ extension Plant {
         }
     }
     
+    static func removeAllWaterReminderNotification() {
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+    }
+    
     private static func authorizeIfNeeded() async -> Bool {
         let notificationCenter = UNUserNotificationCenter.current()
-        
         let settings = await notificationCenter.notificationSettings()
         switch settings.authorizationStatus {
         case .authorized:
@@ -178,8 +185,10 @@ extension Plant {
         case .notDetermined:
             // Ask user for permission
             if let permissionGranted = try? await notificationCenter.requestAuthorization(options: [.alert, .sound]) {
+                UserDefaults.standard.setValue(permissionGranted, forKey: "notificationIsOn")
                 return permissionGranted
             } else {
+                // Something went wrong
                 return false
             }
         case .denied, .provisional, .ephemeral:

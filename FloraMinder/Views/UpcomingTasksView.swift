@@ -16,17 +16,27 @@ struct UpcomingTasksView: View {
             ]
     )
     private var plants: SectionedFetchResults<String, Plant>
-    
-    func sectionTitle(dateString: String) -> String {
+        
+    func getHumanReadableDateString(from dateString: String) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMM d, yyyy"
-
+        dateFormatter.dateFormat = "MMM d, yyyy" // Adjust this format to match your date string format
+        
         if let date = dateFormatter.date(from: dateString) {
-            if Calendar.current.isDate(date, inSameDayAs: .now) {
+            let calendar = Calendar.current
+            let currentDate = calendar.startOfDay(for: Date())
+            
+            if currentDate > date {
+                return "Past Due"
+            } else if calendar.isDateInToday(date) {
                 return "Today"
+            } else if calendar.isDateInTomorrow(date) {
+                return "Tomorrow"
+            } else  {
+                return dateString
             }
         }
-        return dateString
+        
+        return "Invalid Date"
     }
     
     var body: some View {
@@ -35,7 +45,7 @@ struct UpcomingTasksView: View {
                 ScrollView {
                     ForEach(plants) { section in
                         VStack {
-                            Text(sectionTitle(dateString: section.id))
+                            Text(getHumanReadableDateString(from: section.id))
                                 .fontWeight(.semibold)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding(.leading)
