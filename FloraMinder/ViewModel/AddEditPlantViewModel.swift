@@ -35,6 +35,13 @@ class AddEditPlantViewModel: ObservableObject {
     var context = PersistenceController.shared.container.viewContext
     
     var plant: Plant?
+    
+    var waterIntervalString: String {
+        if unit == 1 {
+            return "\(unit) \(waterTimeInterval.rawValue)"
+        }
+        return "\(unit) \(waterTimeInterval.rawValue)s"
+    }
 
     init(plant: Plant? = nil) {
         guard let plant = plant else { return }
@@ -46,12 +53,12 @@ class AddEditPlantViewModel: ObservableObject {
         unit = Int(plant.unit)
         
         do {
-            if let imageFilePath = plant.imageFilePath,
-               let data = try? Data(contentsOf: URL(filePath: imageFilePath)) {
+            if let imageFilePath = plant.imageFilePath {
+                let data = try Data(contentsOf: URL(filePath: imageFilePath))
                 imageState = .success(data)
             }
         } catch {
-            imageState = .failure(error)
+            imageState = .empty
         }
     }
     

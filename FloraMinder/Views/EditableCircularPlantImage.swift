@@ -60,8 +60,9 @@ struct PlantImage: View {
     }
 }
 
-//struct EditableCircularPlantImage_Previews: PreviewProvider {
-//    static var previews: some View {
-//        EditableCircularPlantImage()
-//    }
-//}
+struct EditableCircularPlantImage_Previews: PreviewProvider {
+    static var previews: some View {
+        EditableCircularPlantImage(imageSelection: .constant(.none), imageState: .empty)
+    }
+}
+

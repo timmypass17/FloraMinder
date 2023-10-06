@@ -9,14 +9,11 @@ import Foundation
 import SwiftUI
 
 struct CalendarView: UIViewRepresentable {
-    
     typealias UIViewType = UICalendarView
     
     @FetchRequest(sortDescriptors: [])
     private var plants: FetchedResults<Plant>
-    
     @Binding var dateSelected: DateComponents?
-    
     let interval: DateInterval
         
     func makeUIView(context: Context) -> UICalendarView {
@@ -28,7 +25,6 @@ struct CalendarView: UIViewRepresentable {
         return calendarView
     }
     
-    // Note: Bug where this func doesn't call when plants data change until user taps on a date
     func updateUIView(_ uiView: UICalendarView, context: Context) {
         if let changedDate = CalendarModel.shared.changedDate {
             let dateComponents = Calendar.current.dateComponents([.year, .month, .day], from: changedDate)
@@ -57,7 +53,6 @@ struct CalendarView: UIViewRepresentable {
         
         @MainActor
         func calendarView(_ calendarView: UICalendarView, decorationFor dateComponents: DateComponents) -> UICalendarView.Decoration? {
-//            print("decoration for : \(dateComponents)")
             let foundEvents = parent.plants
                 .filter { Calendar.current.isDate($0.nextWateringDate, inSameDayAs: dateComponents.date!)}
 

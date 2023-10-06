@@ -45,7 +45,7 @@ struct PlantCellView: View {
                 TimelineView(.periodic(from: plant.lastWateredDate, by: oneDayInSeconds)) { context in
                     ProgressView(value: Float(plant.daysPassedSinceLastWatering), total: Float(plant.totalDaysBetweenWatering)) {
                         HStack {
-                            Label("Every \(plant.unit) \(plant.interval.rawValue)", systemImage: "calendar")
+                            Label("Every \(plant.waterTimeIntervalFormatted)", systemImage: "calendar")
                                 .labelStyle(.titleAndIcon)
 
                             Spacer()

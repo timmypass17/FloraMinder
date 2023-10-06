@@ -11,6 +11,5 @@ struct CalendarModel {
     static var shared = CalendarModel()
     
     var changedDate: Date?
-    
     var movedDate: Date?
 }

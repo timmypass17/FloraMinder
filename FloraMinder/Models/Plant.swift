@@ -33,7 +33,6 @@ public class Plant: NSManagedObject {
         return predicate
     }
     
-    
     func water(context: NSManagedObjectContext) {
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         
@@ -99,6 +98,10 @@ extension Plant {
             return "\(daysRemainingUntillNextWatering) days"
         }
     }
+    
+    var waterTimeIntervalFormatted: String {
+        return unit == 1 ? "\(unit) \(interval.rawValue)" : "\(unit) \(interval.rawValue)s"
+    }
 
     var name: String {
         get { name_ ?? "" }
@@ -126,18 +129,17 @@ extension Plant {
         get { nextWateringDate_?.formatted(date: .abbreviated, time: .omitted) ?? "" }
 
     }
+
 }
 
 extension Plant {
     static let notificationCategoryId = "WaterPlantNotification"
     
     static func scheduleWaterReminderNotification() async {
-        print("scheduleWaterReminderNotification")
         // Check if app has permission to schedule notifications, may ask user for permission
         guard await authorizeIfNeeded(),
               UserDefaults.standard.bool(forKey: "notificationIsOn")
         else { return }
-        print("scheduleWaterReminderNotification success")
 
         let context = PersistenceController.shared.container.viewContext
         
@@ -168,7 +170,7 @@ extension Plant {
             var triggerDateComponents = Calendar.current.dateComponents([.year, .month, .day], from: nextWateringDate)
             // Use user's preferred notificaiton time
             if let notificationTime = UserDefaults.standard.string(forKey: "notificationTime") {
-                print(Date(timeIntervalSinceReferenceDate: Double(notificationTime) ?? 0.0).formatted(date: .abbreviated, time: .shortened))
+//                print(Date(timeIntervalSinceReferenceDate: Double(notificationTime) ?? 0.0).formatted(date: .abbreviated, time: .shortened))
                 let triggerTime = Date(timeIntervalSinceReferenceDate: Double(notificationTime) ?? 0.0)
                 let timeComponents = Calendar.current.dateComponents([.hour, .minute], from: triggerTime)
                 triggerDateComponents.hour = timeComponents.hour

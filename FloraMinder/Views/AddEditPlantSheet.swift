@@ -16,14 +16,6 @@ struct AddEditPlantSheet: View {
         self._addEditPlantViewModel = StateObject(wrappedValue: AddEditPlantViewModel(plant: plant))
         self._isPresentingAddEditPlantSheet = isPresentingAddEditPlantSheet
     }
-
-    var waterDue: Date {
-        let waterDue = Calendar.current.date(
-            byAdding: addEditPlantViewModel.waterTimeInterval.calendarUnit,
-            value: Int(addEditPlantViewModel.unit),
-            to: addEditPlantViewModel.lastWatered) ?? Date()
-        return waterDue
-    }
     
     var body: some View {
         NavigationStack {
@@ -44,7 +36,7 @@ struct AddEditPlantSheet: View {
                         HStack {
                             Text("Water Every")
                             Spacer()
-                            Text("\(addEditPlantViewModel.unit) \(addEditPlantViewModel.waterTimeInterval.rawValue)s")
+                            Text(addEditPlantViewModel.waterIntervalString)
                                 .foregroundColor(.secondary)
                         }
                     }
@@ -53,15 +45,6 @@ struct AddEditPlantSheet: View {
                                selection: $addEditPlantViewModel.lastWatered,
                                in: Date.distantPast...Date.now,
                                displayedComponents: .date)
-                
-//                    HStack {
-//                        Text("Water Due")
-//                        
-//                        Spacer()
-//                        
-//                        Text(waterDue.formatted(date: .abbreviated, time: .omitted))
-//                            .foregroundColor(.secondary)
-//                    }
                 }
 
             }

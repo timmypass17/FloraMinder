@@ -10,31 +10,50 @@ import CoreData
 struct PersistenceController {
     static let shared = PersistenceController()
 
-//    static var preview: PersistenceController = {
-//        let result = PersistenceController(inMemory: true)
-//        let viewContext = result.container.viewContext
-//        for _ in 0..<10 {
-//            let newItem = Item(context: viewContext)
-//            newItem.timestamp = Date()
-//        }
-//        do {
-//            try viewContext.save()
-//        } catch {
-//            // Replace this implementation with code to handle the error appropriately.
-//            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-//            let nsError = error as NSError
-//            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-//        }
-//        return result
-//    }()
+    static var preview: PersistenceController = {
+        let result = PersistenceController(inMemory: true)
+        let viewContext = result.container.viewContext
+        let names = ["Lily", "Rose", "Tullip", "Sunflower", "Cactus", "Orhcid"]
+        let location = ["Frontyard", "Bedroom", "Bedroom"]
+        for i in 0..<names.count {
+            let newPlant = Plant(context: viewContext)
+            newPlant.name = names[i]
+            newPlant.location = location[i % location.count]
+            newPlant.nextWateringDate = Date.distantPast
+        }
+        do {
+            try viewContext.save()
+        } catch {
+            // Replace this implementation with code to handle the error appropriately.
+            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        }
+        return result
+    }()
 
     let container: NSPersistentCloudKitContainer
 
     init(inMemory: Bool = false) {
         container = NSPersistentCloudKitContainer(name: "FloraMinder")
+        
+        // Note: Database will reset so best to always start with this instead of migrating.
+        // If you need to move a Core Data store to the container use the migratePersistentStore method
+        // https://useyourloaf.com/blog/sharing-data-with-a-widget/
+//        let url = URL.storeURL(for: "group.com.example.FloraMinder", databaseName: "FloraMinder")
+//        let storeDescription = NSPersistentStoreDescription(url: url)
+//        container.persistentStoreDescriptions = [storeDescription]
+//
+        let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.example.FloraMinder")!
+        let storeURL = containerURL.appendingPathComponent("FloraMinder.sqlite")
+        let description = NSPersistentStoreDescription(url: storeURL)
+
+        container.persistentStoreDescriptions = [description]
+        
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         }
+        
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.
@@ -54,3 +73,14 @@ struct PersistenceController {
         container.viewContext.automaticallyMergesChangesFromParent = true
     }
 }
+
+// App group allows multiple apps to access one or more shared containers (includes extensions like widgets)
+//public extension URL {
+//    static func storeURL(for appGroup: String, databaseName: String) -> URL {
+//        guard let fileContainer = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroup) else {
+//            fatalError("Unable to create URL for \(appGroup)")
+//        }
+//
+//        return fileContainer.appending(path: "\(databaseName).sqlite")
+//    }
+//}

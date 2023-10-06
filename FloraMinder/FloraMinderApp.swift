@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 @main
 struct FloraMinderApp: App {
@@ -20,7 +21,7 @@ struct FloraMinderApp: App {
                 HomeView()
                     .tabItem { Label("Garden", systemImage: "leaf.fill") }
 
-                ScheduleView() // today, tomarrow... and show past watering history?
+                ScheduleView()
                     .tabItem { Label("Calendar", systemImage: "calendar") }
                 
                 SettingsView()
@@ -34,6 +35,8 @@ struct FloraMinderApp: App {
                     Task {
                         await Plant.scheduleWaterReminderNotification()
                     }
+                    
+                    WidgetCenter.shared.reloadTimelines(ofKind: "FloraMinderWidget")
                 @unknown default:
                     break
                 }

@@ -15,7 +15,7 @@ struct ScheduleCellView: View {
             Group {
                 if let imageFilePath = plant.imageFilePath,
                    let image = UIImage(contentsOfFile: imageFilePath) {
-                    Image(uiImage: image )
+                    Image(uiImage: image)
                         .resizable()
                         .frame(width: 50, height: 50)
                         .clipShape(Circle())
@@ -31,8 +31,7 @@ struct ScheduleCellView: View {
             }
             .overlay(alignment: .bottomTrailing) {
                 if plant.isReadyToWater {
-                    Image(systemName: "sparkles") // sparkles
-//                        .foregroundColor(.blue)
+                    Image(systemName: "sparkles")
                         .symbolRenderingMode(.multicolor)
                 } else {
                     Image(systemName: "clock")
@@ -47,8 +46,6 @@ struct ScheduleCellView: View {
             
         }
         .lineLimit(1)
-//        .padding()
-//        .border(.blue)
     }
 }
 

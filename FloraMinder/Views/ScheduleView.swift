@@ -10,14 +10,7 @@ import SwiftUI
 
 struct ScheduleView: View {
     @State private var dateSelected: DateComponents?
-    
-    //    @FetchRequest(
-    //        sortDescriptors: [SortDescriptor(\.name_)],
-    //        predicate: Plant.predicateForDate(date: .now),
-    //        animation: .default
-    //    )
-    //    var plants: FetchedResults<Plant>
-    
+
     @SectionedFetchRequest<String, Plant>(
         sectionIdentifier: \.nextWateringDateString,
         sortDescriptors: [
@@ -47,7 +40,7 @@ struct ScheduleView: View {
                     
                     if let dateSelected {
                         if plants.isEmpty {
-                            Text("No plants to water on \(dateSelected.date?.formatted(date: .abbreviated, time: .omitted) ?? "\(Date().formatted(date: .numeric, time: .omitted))").")
+                            Text("No plants to water on \(dateSelected.date?.formatted(date: .abbreviated, time: .omitted) ?? "\(Date().formatted(date: .abbreviated, time: .omitted))").")
                                 .foregroundColor(.secondary)
                                 .frame(maxWidth: .infinity, alignment: .center)
                                 .padding()
@@ -74,36 +67,43 @@ struct ScheduleView: View {
 
                         }
                     } else {
-                        ForEach(plants) { section in
-                            VStack {
-                                Text(getHumanReadableDateString(from: section.id))
-                                    .fontWeight(.semibold)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .padding(.leading)
-                                
-                                ScrollView(.horizontal, showsIndicators: false) {
-                                    LazyHStack {
-                                        ForEach(section) { plant in
-                                            NavigationLink {
-                                                DetailView(plant: plant)
-                                            } label: {
-                                                ScheduleCellView(plant: plant)
+                        if plants.isEmpty {
+                            Text("No plants to water on \(dateSelected?.date?.formatted(date: .abbreviated, time: .omitted) ?? "\(Date().formatted(date: .abbreviated, time: .omitted))").")
+                                .foregroundColor(.secondary)
+                                .frame(maxWidth: .infinity, alignment: .center)
+                                .padding()
+                        } else {
+                            ForEach(plants) { section in
+                                VStack {
+                                    Text(getHumanReadableDateString(from: section.id))
+                                        .fontWeight(.semibold)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .padding(.leading)
+                                    
+                                    ScrollView(.horizontal, showsIndicators: false) {
+                                        LazyHStack {
+                                            ForEach(section) { plant in
+                                                NavigationLink {
+                                                    DetailView(plant: plant)
+                                                } label: {
+                                                    ScheduleCellView(plant: plant)
+                                                }
+                                                .buttonStyle(.plain)
+                                                .frame(width: geometry.size.width * 0.22)
                                             }
-                                            .buttonStyle(.plain)
-                                            .frame(width: geometry.size.width * 0.22)
                                         }
                                     }
+                                    Divider()
                                 }
-                                Divider()
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                
                             }
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            
+                            .padding(.top, 4)
                         }
-                        .padding(.top, 4)
                     }
                     
                 }
-                .navigationTitle("Water Schedule")
+                .navigationTitle("Calendar")
                 .onChange(of: dateSelected){ newValue in
                     // https://developer.apple.com/forums/thread/122426
                     if let newValue, let date = newValue.date {

@@ -63,7 +63,7 @@ struct DetailView: View {
                         
                         Spacer()
                         
-                        Text("\(detailViewModel.plant.unit) \(detailViewModel.plant.interval.rawValue)s")
+                        Text(detailViewModel.plant.waterTimeIntervalFormatted)
                             .foregroundColor(.secondary)
                     }
                     
@@ -92,9 +92,7 @@ struct DetailView: View {
                     }
                     
                 }
-                
-                // Section("Screen shots")
-                // Section("AR shot")
+
             }
             
             Button {

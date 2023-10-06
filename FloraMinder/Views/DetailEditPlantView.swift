@@ -10,9 +10,7 @@ import PhotosUI
 import CoreData
 
 struct DetailEditView: View {
-    @Environment(\.managedObjectContext) var context
-//    @StateObject var viewModel = ProfileModel()
-    
+    @Environment(\.managedObjectContext) var context    
     @ObservedObject var detailEditViewModel: AddEditPlantViewModel
     
     var body: some View {

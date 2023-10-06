@@ -34,9 +34,9 @@ struct SelectWaterIntervalView: View {
     }
 }
 
-//struct WaterIntervalView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SelectWaterIntervalView(plant: Plant(entity: Plant().entity, insertInto: nil))
-//            .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
-//    }
-//}
+struct WaterIntervalView_Previews: PreviewProvider {
+    static var previews: some View {
+        SelectWaterIntervalView(waterTimeInterval: .constant(.day), unit: .constant(7))
+            .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
+    }
+}

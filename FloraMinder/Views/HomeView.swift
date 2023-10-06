@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 struct HomeView: View {
     @Environment(\.managedObjectContext) private var context
@@ -59,6 +60,8 @@ struct HomeView: View {
                 .toolbar {
                     ToolbarItem {
                         Button {
+//                            WidgetCenter.shared.reloadTimelines(ofKind: "FloraMinderWidget")
+
                             homeViewModel.isPresentingNewPlantView = true
                         } label: {
                             Label("Add Plant", systemImage: "plus")
@@ -68,6 +71,14 @@ struct HomeView: View {
                 }
                 .listStyle(.plain)
             .navigationTitle("My Garden")
+            }
+            .overlay {
+                if plants.isEmpty {
+                    Text("Your plants will show up here.\nClick the \"+\" sign to get started!")
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                        .padding()
+                }
             }
         }
     }
