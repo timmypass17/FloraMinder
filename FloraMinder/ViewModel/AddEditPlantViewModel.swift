@@ -33,8 +33,9 @@ class AddEditPlantViewModel: ObservableObject {
     }
     
     var context = PersistenceController.shared.container.viewContext
-    
     var plant: Plant?
+    
+//    var plantService = PlantService()
     
     var waterIntervalString: String {
         if unit == 1 {

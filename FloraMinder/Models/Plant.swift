@@ -148,12 +148,7 @@ extension Plant {
         notificationCenter.removeAllPendingNotificationRequests()
 
         // Fetch all plants
-        var plants: [Plant] = []
-        do {
-            plants = try context.fetch(Plant.fetchRequest())
-        } catch {
-            print("Error fetching plant data: \(error)")
-        }
+        var plants: [Plant] = (try? context.fetch(Plant.fetchRequest())) ?? []
         
         // Group plants by their nextWateringDate
         let groupedPlants = Dictionary(grouping: plants) { $0.nextWateringDate }
@@ -166,16 +161,16 @@ extension Plant {
             content.sound = UNNotificationSound.default
             content.categoryIdentifier = Plant.notificationCategoryId
             
-            // Create the notification request
+            // Create notification trigger
             var triggerDateComponents = Calendar.current.dateComponents([.year, .month, .day], from: nextWateringDate)
-            // Use user's preferred notificaiton time
             if let notificationTime = UserDefaults.standard.string(forKey: "notificationTime") {
-//                print(Date(timeIntervalSinceReferenceDate: Double(notificationTime) ?? 0.0).formatted(date: .abbreviated, time: .shortened))
                 let triggerTime = Date(timeIntervalSinceReferenceDate: Double(notificationTime) ?? 0.0)
                 let timeComponents = Calendar.current.dateComponents([.hour, .minute], from: triggerTime)
+                // Add user's prefered notification time
                 triggerDateComponents.hour = timeComponents.hour
                 triggerDateComponents.minute = timeComponents.minute
             }
+            
             let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDateComponents, repeats: false)
             let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
             

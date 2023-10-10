@@ -17,18 +17,30 @@ struct SettingsView: View {
     var body: some View {
         NavigationView {
             Form {
-                Section("Notifications") {
+                
+                Section {
                     Toggle("Enable Water Reminders", isOn: $notificationsIsOn)
                     
                     if notificationsIsOn {
-                        DatePicker("Notificaiton Time",
+                        DatePicker("Notification Time",
                                    selection: $notificationTime, displayedComponents: .hourAndMinute)
+                    }
+                } header: {
+                    Text("Notifications")
+                } footer: {
+                    if notificationsIsOn {
+                        Text("Notify user of plants that require watering today (if there are any).")
                     }
                 }
                 
+                
                 Section("Help & Support") {
                     Button(action: {
-                        settingsViewModel.isShowingContactMailView.toggle()
+                        if MFMailComposeViewController.canSendMail() {
+                            settingsViewModel.isShowingContactMailView.toggle()
+                        } else {
+                            settingsViewModel.isPresentingMissingMailAlert.toggle()
+                        }
                     }) {
                         HStack {
                             Text("Contact Us")
@@ -36,15 +48,22 @@ struct SettingsView: View {
                             Image(systemName: "chevron.right")
                                 .foregroundColor(.secondary)
                         }
+                        .contentShape(Rectangle())  // make spacer clickable
                     }
                     .buttonStyle(.plain)
-                    .disabled(!MFMailComposeViewController.canSendMail())
                     .sheet(isPresented: $settingsViewModel.isShowingContactMailView) {
-                        MailView(result: $settingsViewModel.contactResult, subject: "Contact Us")
+                        MailView(
+                            result: $settingsViewModel.contactResult,
+                            subject: "Contact Us",
+                            supportEmail: settingsViewModel.supportEmail)
                     }
                     
                     Button(action: {
-                        settingsViewModel.isShowingBugMailView.toggle()
+                        if MFMailComposeViewController.canSendMail() {
+                            settingsViewModel.isShowingBugMailView.toggle()
+                        } else {
+                            settingsViewModel.isPresentingMissingMailAlert.toggle()
+                        }
                     }) {
                         HStack {
                             Text("Bug Report")
@@ -52,11 +71,13 @@ struct SettingsView: View {
                             Image(systemName: "chevron.right")
                                 .foregroundColor(.secondary)
                         }
+                        .contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)
-                    .disabled(!MFMailComposeViewController.canSendMail())
                     .sheet(isPresented: $settingsViewModel.isShowingBugMailView) {
-                        MailView(result: $settingsViewModel.bugResult, subject: "Bug Report")
+                        MailView(result: $settingsViewModel.bugResult,
+                                 subject: "Bug Report",
+                                 supportEmail: settingsViewModel.supportEmail)
                     }
                 }
                 
@@ -73,6 +94,11 @@ struct SettingsView: View {
                 }
             }, message: {
                 Text("This action will permanently delete all of your plant data. This data cannot be recovered. Are you sure you want to proceed?")
+            })
+            .alert("No Email Found", isPresented: $settingsViewModel.isPresentingMissingMailAlert, actions: {
+
+            }, message: {
+                Text("There is no email associated with this device. Please email \(settingsViewModel.supportEmail) for any questions.")
             })
             .onChange(of: notificationsIsOn) { newValue in
                 Task {

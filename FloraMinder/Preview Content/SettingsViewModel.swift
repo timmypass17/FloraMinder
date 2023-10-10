@@ -16,6 +16,9 @@ class SettingsViewModel: ObservableObject {
     @Published var isShowingContactMailView = false
     @Published var isShowingBugMailView = false
     @Published var isPresentingAlert = false
+    @Published var isPresentingMissingMailAlert = false
+
+    let supportEmail = "floraminder@gmail.com" 
     
     var context = PersistenceController.shared.container.viewContext
 
