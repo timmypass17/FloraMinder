@@ -26,17 +26,8 @@ struct CalendarView: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: UICalendarView, context: Context) {
-        if let changedDate = CalendarModel.shared.changedDate {
-            let dateComponents = Calendar.current.dateComponents([.year, .month, .day], from: changedDate)
-            uiView.reloadDecorations(forDateComponents: [dateComponents], animated: true)
-            CalendarModel.shared.changedDate = nil
-        }
-        
-        if let movedDate = CalendarModel.shared.movedDate {
-            let dateComponents = Calendar.current.dateComponents([.year, .month, .day], from: movedDate)
-            uiView.reloadDecorations(forDateComponents: [dateComponents], animated: true)
-            CalendarModel.shared.movedDate = nil
-        }
+        uiView.reloadDecorations(forDateComponents: Array(CalendarModel.shared.datesModified), animated: true)
+        CalendarModel.shared.datesModified.removeAll()
     }
     
     func makeCoordinator() -> Coordinator {

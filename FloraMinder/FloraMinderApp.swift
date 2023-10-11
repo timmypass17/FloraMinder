@@ -33,7 +33,7 @@ struct FloraMinderApp: App {
                 switch newScenePhase {
                 case .background:
                     Task {
-                        await Plant.scheduleWaterReminderNotification()
+                        await PlantService.scheduleWaterReminderNotification()
                     }
                     
                     WidgetCenter.shared.reloadTimelines(ofKind: "FloraMinderWidget")

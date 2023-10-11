@@ -10,17 +10,15 @@ import CoreData
 
 class HomeViewModel: ObservableObject {
     @Published var isPresentingNewPlantView = false
+    
     var context = PersistenceController.shared.container.viewContext
+    let plantService = PlantService()
 
     func deletePlant(_ plant: Plant) {        
-        CalendarModel.shared.changedDate = plant.nextWateringDate
-        print("Plant to delete: \(plant)")
-        context.delete(plant)
         do {
-            try context.save()
-            print("Removed plant successfully\n\(plant)")
+            try plantService.deletePlant(plant)
         } catch {
-            print("Error removing plant\n\(error)")
+            // Handle deletion error
         }
     }
 }

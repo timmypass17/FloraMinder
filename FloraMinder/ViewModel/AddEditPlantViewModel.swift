@@ -20,7 +20,6 @@ class AddEditPlantViewModel: ObservableObject {
     @Published var unit = 1
     @Published var isNotificationEnabled = true
     @Published private(set) var imageState: ImageState = .empty
-    
     @Published var imageSelection: PhotosPickerItem? = nil {
         didSet {
             if let imageSelection {
@@ -32,20 +31,25 @@ class AddEditPlantViewModel: ObservableObject {
         }
     }
     
-    var context = PersistenceController.shared.container.viewContext
     var plant: Plant?
+    var context = PersistenceController.shared.container.viewContext
+    var plantService = PlantService()
     
-//    var plantService = PlantService()
+    var plantParts: PlantParts {
+        PlantParts(name: name, location: location, lastWateredDate: lastWatered, interval: waterTimeInterval, unit: unit, imageState: imageState)
+    }
     
     var waterIntervalString: String {
-        if unit == 1 {
-            return "\(unit) \(waterTimeInterval.rawValue)"
-        }
-        return "\(unit) \(waterTimeInterval.rawValue)s"
+        return unit == 1 ? "\(unit) \(waterTimeInterval.rawValue)" : "\(unit) \(waterTimeInterval.rawValue)s"
+    }
+    
+    var toolbarButtonText: String {
+        return plant != nil ? "Update" : "Add"
     }
 
     init(plant: Plant? = nil) {
         guard let plant = plant else { return }
+        
         self.plant = plant
         name = plant.name
         location = plant.location
@@ -63,79 +67,30 @@ class AddEditPlantViewModel: ObservableObject {
         }
     }
     
-    func addPlant() async {
-        // 1. Create a new instance of your Core Data entity.
-        let plant = Plant(context: context)
-        // 2. Set the properties of the managed object as needed.
-        plant.name = name
-        plant.location = location
-        plant.nextWateringDate = Calendar.current.date(byAdding: waterTimeInterval.calendarUnit, value: Int(unit), to: lastWatered) ?? Date()
-        plant.interval = waterTimeInterval
-        plant.unit = Int32(unit)
-        
-        // Save the image data to the file path
-        switch imageState {
-        case .success(let data):
-            // Create a unique file name or generate a URL for the image
-            let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-            let fileURL = documentsDirectory.appending(path: "\(UUID().uuidString).jpg")
-            try? data.write(to: fileURL)
-            plant.imageFilePath = fileURL.path
-        default:
-            break
-        }
-        
-        CalendarModel.shared.changedDate = plant.nextWateringDate
-        // 3. Save the managed object context to persist the new object to the Core Data store.
-        do {
-            try context.save()
-            print("Created plant successfully\n\(plant)")
-        } catch {
-            print("Erroring creating plant\n\(error)")
+    func addUpdatePlantButtonTapped() {
+        if let plant {
+            updatePlant(plant)
+        } else {
+            addPlant()
         }
     }
     
-    func updatePlant() async {
-
-        guard let plant = plant else { return }
-        
-        CalendarModel.shared.changedDate = plant.nextWateringDate   // original due date
-        
-        let newWateringDate = Calendar.current.date(byAdding: waterTimeInterval.calendarUnit, value: Int(unit), to: lastWatered) ?? Date()
-
-        plant.name = name
-        plant.location = location
-        plant.nextWateringDate = newWateringDate
-        plant.interval = waterTimeInterval
-        plant.unit = Int32(unit)
-        
-        CalendarModel.shared.movedDate = newWateringDate // new moved due date
-
-        
-        // Save the image data to the file path
-        switch imageState {
-        case .success(let data):
-            // Create a unique file name or generate a URL for the image
-            let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-            print(documentsDirectory.path)
-            let fileURL = documentsDirectory.appending(path: "\(UUID().uuidString).jpg")
-            print(fileURL.path)
-            try? data.write(to: fileURL)
-            plant.imageFilePath = fileURL.path
-        default:
-            break
-        }
-        
+    func addPlant() {
         do {
-            try context.save()
-            print("Updated plant successfully\n\(plant)")
+            try plantService.addPlant(using: plantParts)
         } catch {
-            print("Erroring creating plant\n\(error)")
+            // Handle saving error here
         }
     }
     
-    // MARK: - Private Methods
-    
+    func updatePlant(_ plant: Plant) {
+        do {
+            try plantService.updatePlant(plant, using: plantParts, oldNextWateringDate: plant.nextWateringDate)
+        } catch {
+            // Handle updating error here
+        }
+    }
+        
     private func loadTransferable(from imageSelection: PhotosPickerItem) -> Progress {
         return imageSelection.loadTransferable(type: Data.self) { result in
             DispatchQueue.main.async {

@@ -36,9 +36,9 @@ class SettingsViewModel: ObservableObject {
     
     func notificationToggledValueChanged(_ notificationIsOn: Bool) async {
         if notificationIsOn {
-            await Plant.scheduleWaterReminderNotification()
+            await PlantService.scheduleWaterReminderNotification()
         } else  {
-            Plant.removeAllWaterReminderNotification()
+            PlantService.removeAllWaterReminderNotification()
         }
     }
 }

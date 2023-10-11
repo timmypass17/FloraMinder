@@ -9,7 +9,7 @@ import Foundation
 
 struct CalendarModel {
     static var shared = CalendarModel()
-    
-    var changedDate: Date?
-    var movedDate: Date?
+
+    // items have to be unique or else errpr
+    var datesModified: Set<DateComponents> = []
 }

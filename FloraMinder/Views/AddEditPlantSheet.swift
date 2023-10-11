@@ -55,20 +55,9 @@ struct AddEditPlantSheet: View {
                     }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    if addEditPlantViewModel.plant == nil {
-                        Button("Add") {
-                            Task {
-                                await addEditPlantViewModel.addPlant()
-                            }
-                            isPresentingAddEditPlantSheet = false
-                        }
-                    } else {
-                        Button("Save") {
-                            Task {
-                                await addEditPlantViewModel.updatePlant()
-                            }
-                            isPresentingAddEditPlantSheet = false
-                        }
+                    Button(addEditPlantViewModel.toolbarButtonText) {
+                        addEditPlantViewModel.addUpdatePlantButtonTapped()
+                        isPresentingAddEditPlantSheet = false
                     }
                 }
             }

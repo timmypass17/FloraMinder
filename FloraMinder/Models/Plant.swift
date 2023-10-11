@@ -36,11 +36,11 @@ public class Plant: NSManagedObject {
     func water(context: NSManagedObjectContext) {
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         
-        CalendarModel.shared.changedDate = nextWateringDate
+        CalendarModel.shared.datesModified.insert(Calendar.current.dateComponents([.year, .month, .day], from: nextWateringDate))
         var newWateringDate = Calendar.current.date(byAdding: interval.calendarUnit, value: Int(unit), to: .now) ?? Date()
         newWateringDate = Calendar.current.startOfDay(for: newWateringDate)
         nextWateringDate_ = newWateringDate
-        CalendarModel.shared.movedDate = newWateringDate
+        CalendarModel.shared.datesModified.insert(Calendar.current.dateComponents([.year, .month, .day], from: newWateringDate))
 
         do {
             try context.save()
@@ -51,12 +51,10 @@ public class Plant: NSManagedObject {
     }
 }
 
-extension Plant : Identifiable { }
-
+extension Plant: Identifiable { }
 
 extension Plant {
     typealias Day = Int
-    
     var calendar: Calendar { Calendar.current }
     
     var lastWateredDate: Date {
@@ -130,80 +128,6 @@ extension Plant {
 
     }
 
-}
-
-extension Plant {
-    static let notificationCategoryId = "WaterPlantNotification"
-    
-    static func scheduleWaterReminderNotification() async {
-        // Check if app has permission to schedule notifications, may ask user for permission
-        guard await authorizeIfNeeded(),
-              UserDefaults.standard.bool(forKey: "notificationIsOn")
-        else { return }
-
-        let context = PersistenceController.shared.container.viewContext
-        
-        // Clear pending notifications
-        let notificationCenter = UNUserNotificationCenter.current()
-        notificationCenter.removeAllPendingNotificationRequests()
-
-        // Fetch all plants
-        var plants: [Plant] = (try? context.fetch(Plant.fetchRequest())) ?? []
-        
-        // Group plants by their nextWateringDate
-        let groupedPlants = Dictionary(grouping: plants) { $0.nextWateringDate }
-        
-        // Iterate through grouped plants and create notification requests
-        for (nextWateringDate, plants) in groupedPlants {
-            let content = UNMutableNotificationContent()
-            content.title = "Water Reminder"
-            content.body = "You have \(plants.count) plants ready to be watered."
-            content.sound = UNNotificationSound.default
-            content.categoryIdentifier = Plant.notificationCategoryId
-            
-            // Create notification trigger
-            var triggerDateComponents = Calendar.current.dateComponents([.year, .month, .day], from: nextWateringDate)
-            if let notificationTime = UserDefaults.standard.string(forKey: "notificationTime") {
-                let triggerTime = Date(timeIntervalSinceReferenceDate: Double(notificationTime) ?? 0.0)
-                let timeComponents = Calendar.current.dateComponents([.hour, .minute], from: triggerTime)
-                // Add user's prefered notification time
-                triggerDateComponents.hour = timeComponents.hour
-                triggerDateComponents.minute = timeComponents.minute
-            }
-            
-            let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDateComponents, repeats: false)
-            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-            
-            // Schedule the request
-            try? await notificationCenter.add(request)
-        }
-    }
-    
-    static func removeAllWaterReminderNotification() {
-        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-    }
-    
-    private static func authorizeIfNeeded() async -> Bool {
-        let notificationCenter = UNUserNotificationCenter.current()
-        let settings = await notificationCenter.notificationSettings()
-        switch settings.authorizationStatus {
-        case .authorized:
-            return true
-        case .notDetermined:
-            // Ask user for permission
-            if let permissionGranted = try? await notificationCenter.requestAuthorization(options: [.alert, .sound]) {
-                UserDefaults.standard.setValue(permissionGranted, forKey: "notificationIsOn")
-                return permissionGranted
-            } else {
-                // Something went wrong
-                return false
-            }
-        case .denied, .provisional, .ephemeral:
-            return false
-        @unknown default:
-            return false
-        }
-    }
 }
 
 enum WaterTimeInterval: String, CaseIterable, Identifiable {

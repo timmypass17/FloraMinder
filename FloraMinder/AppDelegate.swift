@@ -13,7 +13,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         let center = UNUserNotificationCenter.current()
         
         let alarmCategory = UNNotificationCategory(
-            identifier: Plant.notificationCategoryId,
+            identifier: PlantService.notificationCategoryId,
             actions: [], // additional actions for notification
             intentIdentifiers: [],
             options: []
@@ -24,7 +24,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         
         
         Task {
-            await Plant.scheduleWaterReminderNotification()
+            await PlantService.scheduleWaterReminderNotification()
         }
 
         return true
