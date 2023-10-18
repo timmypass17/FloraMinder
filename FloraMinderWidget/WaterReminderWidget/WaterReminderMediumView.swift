@@ -24,7 +24,7 @@ struct WaterReminderMediumView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            VStack {
+            VStack(alignment: .leading) {
                 HStack(alignment: .firstTextBaseline) {
                     Text("FloraMinder")
                         .fontWeight(.semibold)
@@ -32,7 +32,6 @@ struct WaterReminderMediumView: View {
                     
                     Text("Today")
                         .foregroundColor(.secondary)
-//                        .font(.caption)
                         .fontWeight(.semibold)
                         .unredacted()
 
@@ -46,12 +45,23 @@ struct WaterReminderMediumView: View {
                     }
                 }
                 
+                Spacer()
+                
+                if plants.isEmpty {
+                    Text("No water today")
+                        .foregroundColor(.secondary)
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                        .unredacted()
+                    
+                    Spacer()
+                }
+                
                 Grid {
                     GridRow {
                         ForEach(plants.prefix(4), id: \.name) { plant in
                             ScheduleCellView(plant: plant)
                                 .frame(width: geometry.size.width * 0.20)
-//                                .border(.blue)
                         }
                     }
                 }

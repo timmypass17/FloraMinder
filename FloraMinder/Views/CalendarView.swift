@@ -44,14 +44,8 @@ struct CalendarView: UIViewRepresentable {
         
         @MainActor
         func calendarView(_ calendarView: UICalendarView, decorationFor dateComponents: DateComponents) -> UICalendarView.Decoration? {
-            let foundEvents = parent.plants
-                .filter { Calendar.current.isDate($0.nextWateringDate, inSameDayAs: dateComponents.date!)}
-
-            if foundEvents.count == 0 {
-                return nil
-            } else {
-                return .default(color: .systemOrange)
-            }
+            let numberOfWaterTasks = parent.plants.filter { Calendar.current.isDate($0.nextWateringDate, inSameDayAs: dateComponents.date!)}
+            return numberOfWaterTasks.count == 0 ? nil : .default(color: .systemOrange)
         }
         
         func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {

@@ -11,11 +11,7 @@ struct PlantCellView: View {
     @ObservedObject var plant: Plant
     
     var imageString: String {
-        if plant.isReadyToWater {
-            return "sparkles"
-        } else {
-            return "clock"
-        }
+        return plant.isReadyToWater ? "sparkles" : "clock"
     }
     
     let oneDayInSeconds: TimeInterval = 24 * 60 * 60
@@ -35,7 +31,7 @@ struct PlantCellView: View {
                     .foregroundColor(.white)
                     .frame(width: 50, height: 50)
                     .background {
-                        Circle().fill(.regularMaterial)
+                        Circle().fill(.secondary.opacity(0.5))
                     }
             }
 
@@ -66,11 +62,14 @@ struct PlantCellView: View {
 }
 
 struct PlantCellView_Previews: PreviewProvider {
+    static var samplePlant: Plant {
+        let plant = Plant(entity: Plant.entity(), insertInto: nil)
+        plant.name = "Cactus"
+        return plant
+    }
     static var previews: some View {
-        PlantCellView(plant: Plant(entity: Plant.entity(), insertInto: nil))
-            .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
+        PlantCellView(plant: samplePlant)
             .padding()
             .previewLayout(.sizeThatFits)
-        
     }
 }

@@ -125,7 +125,6 @@ extension Plant {
     @objc
     var nextWateringDateString: String {
         get { nextWateringDate_?.formatted(date: .abbreviated, time: .omitted) ?? "" }
-
     }
 
 }

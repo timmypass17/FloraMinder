@@ -73,14 +73,3 @@ struct PersistenceController {
         container.viewContext.automaticallyMergesChangesFromParent = true
     }
 }
-
-// App group allows multiple apps to access one or more shared containers (includes extensions like widgets)
-//public extension URL {
-//    static func storeURL(for appGroup: String, databaseName: String) -> URL {
-//        guard let fileContainer = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroup) else {
-//            fatalError("Unable to create URL for \(appGroup)")
-//        }
-//
-//        return fileContainer.appending(path: "\(databaseName).sqlite")
-//    }
-//}

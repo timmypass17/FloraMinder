@@ -125,10 +125,9 @@ struct DetailView: View {
             }
         }
         .sheet(isPresented: $detailViewModel.isPresentingEditPlantSheet) {
-            AddEditPlantSheet(
-                plant: detailViewModel.plant,
-                isPresentingAddEditPlantSheet: $detailViewModel.isPresentingEditPlantSheet)
-            .environment(\.managedObjectContext, context)
+                AddEditPlantView(
+                    addEditPlantViewModel: AddEditPlantViewModel(plant: detailViewModel.plant),
+                    isPresentingAddEditPlantSheet: $detailViewModel.isPresentingEditPlantSheet)
         }
     }
 }

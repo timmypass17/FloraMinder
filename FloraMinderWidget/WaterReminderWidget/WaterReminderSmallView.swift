@@ -31,12 +31,8 @@ struct WaterReminderSmallView: View {
                 Spacer()
                 
             }
-//            Text(description)
-//                .frame(maxWidth: .infinity, alignment: .leading)
-//                .fontWeight(.semibold)
-//
+
             Spacer()
-            
             
             if !plants.isEmpty {
                 Image(systemName: "camera.macro")
@@ -44,7 +40,7 @@ struct WaterReminderSmallView: View {
                     .foregroundColor(.white)
                     .frame(width: 75, height: 75)
                     .background {
-                        Circle().fill(.secondary).opacity(0.25)
+                        Circle().fill(.secondary.opacity(0.5))
                     }
                     .unredacted()
                     .overlay(alignment: .bottomTrailing) {
@@ -61,16 +57,9 @@ struct WaterReminderSmallView: View {
                 Text("No water today")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
-//                    .fontWeight(.semibold)
-                
             }
             
             Spacer()
-            
-//            Text(description)
-//                .frame(maxWidth: .infinity, alignment: .leading)
-//                .fontWeight(.semibold)
-//                .font(.caption)
             
         }
         .padding()

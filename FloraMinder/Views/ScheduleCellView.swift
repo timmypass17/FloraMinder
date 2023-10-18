@@ -25,7 +25,7 @@ struct ScheduleCellView: View {
                         .foregroundColor(.white)
                         .frame(width: 50, height: 50)
                         .background {
-                            Circle().fill(.regularMaterial)
+                            Circle().fill(.secondary.opacity(0.5))
                         }
                 }
             }

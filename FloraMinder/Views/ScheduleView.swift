@@ -9,8 +9,6 @@
 import SwiftUI
 
 struct ScheduleView: View {
-    @State private var dateSelected: DateComponents?
-
     @SectionedFetchRequest<String, Plant>(
         sectionIdentifier: \.nextWateringDateString,
         sortDescriptors: [
@@ -19,7 +17,8 @@ struct ScheduleView: View {
         ]
     )
     private var plants: SectionedFetchResults<String, Plant>
-    
+    @State private var dateSelected: DateComponents?
+
     let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     
     var body: some View {
@@ -44,7 +43,7 @@ struct ScheduleView: View {
                         EmptyTaskView(dateComponents: dateSelected)
                     } else {
                         ForEach(plants) { section in
-                            Text(formatDate(section.id))
+                            Text(formatDateSection(section.id))
                                 .fontWeight(.semibold)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding(.leading)
@@ -81,7 +80,7 @@ struct ScheduleView: View {
         }
     }
     
-    func formatDate(_ dateString: String) -> String {
+    func formatDateSection(_ dateString: String) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM dd, yyyy"
         

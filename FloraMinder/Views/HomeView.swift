@@ -44,7 +44,7 @@ struct HomeView: View {
                                 }
                                 .swipeActions(edge: .trailing) {
                                     Button(role: .destructive) {
-                                        homeViewModel.deletePlant(plant)
+                                        homeViewModel.swipePlantToDelete(plant)
                                     } label: {
                                         Label("Delete", systemImage: "trash")
                                     }
@@ -54,24 +54,27 @@ struct HomeView: View {
                     }
                 }
                 .sheet(isPresented: $homeViewModel.isPresentingNewPlantView) {
-                    AddEditPlantSheet(plant: nil, isPresentingAddEditPlantSheet: $homeViewModel.isPresentingNewPlantView)
-                        .environment(\.managedObjectContext, context)
+                        AddEditPlantView(
+                            addEditPlantViewModel: AddEditPlantViewModel(plant: nil),
+                            isPresentingAddEditPlantSheet: $homeViewModel.isPresentingNewPlantView)
                 }
                 .toolbar {
                     ToolbarItem {
                         Button {
-//                            WidgetCenter.shared.reloadTimelines(ofKind: "FloraMinderWidget")
-
                             homeViewModel.isPresentingNewPlantView = true
                         } label: {
                             Label("Add Plant", systemImage: "plus")
-                            
                         }
                     }
                 }
                 .listStyle(.plain)
             .navigationTitle("My Garden")
             }
+            .alert("Missing iCloud Account", isPresented: $homeViewModel.isPresentingErrorAlert, actions: {
+
+            }, message: {
+                Text("There is no iCloud account associated with this device. Please log in to your iCloud and try again.")
+            })
             .overlay {
                 if plants.isEmpty {
                     Text("Your plants will show up here.\nClick the \"+\" sign to get started!")
@@ -87,6 +90,6 @@ struct HomeView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
-            .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }

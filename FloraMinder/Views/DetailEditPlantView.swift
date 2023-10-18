@@ -51,7 +51,7 @@ struct DetailEditView: View {
 
 struct AddEditPlant_Previews: PreviewProvider {
     static var previews: some View {
-        DetailEditView(detailEditViewModel: AddEditPlantViewModel())
+        DetailEditView(detailEditViewModel: AddEditPlantViewModel(plant: nil))
             .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
     }
 }

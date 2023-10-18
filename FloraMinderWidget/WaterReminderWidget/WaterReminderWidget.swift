@@ -61,10 +61,10 @@ struct Provider: TimelineProvider {
         completion(entry)
     }
     
+    // Gets data for widget (optional can refresh in the future)
     func getTimeline(in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> Void) {
         do {
-            let result = try getPlantData()
-            
+            let result = try getDailyPlantData()
             let entry = SimpleEntry(date: Date(), plants: result)
             
             // Note: reload timeline manually (.never) using WidgetCenter.shared.reload
@@ -76,7 +76,7 @@ struct Provider: TimelineProvider {
         }
     }
     
-    private func getPlantData() throws -> [Plant] {
+    private func getDailyPlantData() throws -> [Plant] {
         let viewContext = PersistenceController.shared.container.viewContext
         
         let request = Plant.fetchRequest()
@@ -101,6 +101,5 @@ struct FloraMinderWidget_Previews: PreviewProvider {
         
         WaterReminderWidgetEntryView(entry: SimpleEntry(date: Date(), plants: []))
             .previewContext(WidgetPreviewContext(family: .systemMedium))
-        
     }
 }

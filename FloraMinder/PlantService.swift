@@ -40,11 +40,11 @@ class PlantService {
         // Save the image data to the file path
         switch parts.imageState {
         case .success(let data):
-            // Create a unique file name or generate a URL for the image
+            // Create the url
             let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
             let fileURL = documentsDirectory.appending(path: "\(UUID().uuidString).jpg")
             try? data.write(to: fileURL)
-            
+
             plant.imageFilePath = fileURL.path
         default:
             break
@@ -52,14 +52,11 @@ class PlantService {
         
         // Update calendar decorations
         if let oldNextWateringDate {
-            print(oldNextWateringDate.formatted(date: .abbreviated, time: .omitted))
             CalendarModel.shared.datesModified.insert(Calendar.current.dateComponents([.year, .month, .day], from: oldNextWateringDate))
         }
         
-        print(newNextWateringDate.formatted(date: .abbreviated, time: .omitted))
         CalendarModel.shared.datesModified.insert(Calendar.current.dateComponents([.year, .month, .day], from: newNextWateringDate))
 
-        
         // 3. Save the managed object context to persist the new object to the Core Data store.
         try context.save()
     }
@@ -68,7 +65,7 @@ class PlantService {
         CalendarModel.shared.datesModified.insert(Calendar.current.dateComponents([.year, .month, .day], from: plant.nextWateringDate))
 
         context.delete(plant)
-        
+
         try context.save()
     }
     
@@ -108,6 +105,12 @@ class PlantService {
                 // Add user's prefered notification time
                 triggerDateComponents.hour = timeComponents.hour
                 triggerDateComponents.minute = timeComponents.minute
+                print("User notification: \(triggerDateComponents)")
+            } else {
+                // Default notification time (12pm, noon)
+                triggerDateComponents.hour = 12 // 24 hour clock
+                triggerDateComponents.minute = 0
+                print("Default notification: \(triggerDateComponents)")
             }
             
             let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDateComponents, repeats: false)

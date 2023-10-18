@@ -16,8 +16,8 @@ class AddEditPlantViewModel: ObservableObject {
     @Published var name = ""
     @Published var location = ""
     @Published var lastWatered = Date()
-    @Published var waterTimeInterval: WaterTimeInterval = .week
-    @Published var unit = 1
+    @Published var waterTimeInterval: WaterTimeInterval = .day
+    @Published var unit = 3
     @Published var isNotificationEnabled = true
     @Published private(set) var imageState: ImageState = .empty
     @Published var imageSelection: PhotosPickerItem? = nil {
@@ -30,6 +30,7 @@ class AddEditPlantViewModel: ObservableObject {
             }
         }
     }
+    @Published var isPresentingErrorAlert = false
     
     var plant: Plant?
     var context = PersistenceController.shared.container.viewContext
@@ -47,7 +48,7 @@ class AddEditPlantViewModel: ObservableObject {
         return plant != nil ? "Update" : "Add"
     }
 
-    init(plant: Plant? = nil) {
+    init(plant: Plant?) {
         guard let plant = plant else { return }
         
         self.plant = plant
@@ -67,7 +68,7 @@ class AddEditPlantViewModel: ObservableObject {
         }
     }
     
-    func addUpdatePlantButtonTapped() {
+    func saveButtonTapped() {
         if let plant {
             updatePlant(plant)
         } else {
@@ -79,7 +80,7 @@ class AddEditPlantViewModel: ObservableObject {
         do {
             try plantService.addPlant(using: plantParts)
         } catch {
-            // Handle saving error here
+            isPresentingErrorAlert = true
         }
     }
     
@@ -87,7 +88,7 @@ class AddEditPlantViewModel: ObservableObject {
         do {
             try plantService.updatePlant(plant, using: plantParts, oldNextWateringDate: plant.nextWateringDate)
         } catch {
-            // Handle updating error here
+            isPresentingErrorAlert = true
         }
     }
         
