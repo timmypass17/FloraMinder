@@ -11,7 +11,7 @@ struct PlantCellView: View {
     @ObservedObject var plant: Plant
     
     var imageString: String {
-        return plant.isReadyToWater ? "sparkles" : "clock"
+        return plant.isReadyToWater ? "checkmark" : "clock"
     }
     
     let oneDayInSeconds: TimeInterval = 24 * 60 * 60
@@ -46,14 +46,23 @@ struct PlantCellView: View {
 
                             Spacer()
                             // Use sparkles to show ready to water
-                            Label("\(plant.daysUntilNextWateringFormatted)", systemImage: imageString)
-                                .labelStyle(.titleAndIcon)
-                                .symbolRenderingMode(.multicolor)
+                            HStack {
+                                Image(systemName: imageString)
+                                    .symbolRenderingMode(imageString == "checkmark" ? .palette : .multicolor)
+                                    .foregroundColor(.green)
+                                
+                                Text(plant.daysUntilNextWateringFormatted)
+//                                Spacer()
+                            }
+                            .lineLimit(1)
+                            .frame(width: 80)
+//                            .border(.blue)
                         }
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                     }
                     .progressViewStyle(.linear)
+//                    .tint(plant.isReadyToWater ? .blue : .none)
                 }
             }
             .padding(.leading, 4)

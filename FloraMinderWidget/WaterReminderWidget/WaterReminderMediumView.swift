@@ -59,7 +59,7 @@ struct WaterReminderMediumView: View {
                 
                 Grid {
                     GridRow {
-                        ForEach(plants.prefix(4), id: \.name) { plant in
+                        ForEach(plants.prefix(4), id: \.id) { plant in
                             ScheduleCellView(plant: plant)
                                 .frame(width: geometry.size.width * 0.20)
                         }

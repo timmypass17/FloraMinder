@@ -22,7 +22,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         center.setNotificationCategories([alarmCategory])
         center.delegate = self
         
-        
         Task {
             await PlantService.scheduleWaterReminderNotification()
         }

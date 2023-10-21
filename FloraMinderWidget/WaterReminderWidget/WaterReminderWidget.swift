@@ -63,27 +63,24 @@ struct Provider: TimelineProvider {
     
     // Gets data for widget (optional can refresh in the future)
     func getTimeline(in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> Void) {
-        do {
-            let result = try getDailyPlantData()
-            let entry = SimpleEntry(date: Date(), plants: result)
-            
-            // Note: reload timeline manually (.never) using WidgetCenter.shared.reload
-            let timeline = Timeline(entries: [entry], policy: .never)
-            completion(timeline)
-        } catch {
-            
-            print("Failed to get timeline: \(error.localizedDescription)")
-        }
+        print("getTimeline()")
+//        let entries = getPlantTimeLineEntries()
+        let dailyPlants = (try? getDailyPlantData()) ?? []
+        
+        // Note: reload timeline manually (.never) using WidgetCenter.shared.reload
+        // .atEnd means it will reload widget data when it reaches the last entry
+        let timeline = Timeline(entries: [SimpleEntry(date: .now, plants: dailyPlants)], policy: .after(Date().addingTimeInterval(12 * 60 * 60)))   // Reload every 12 hours
+        completion(timeline)
     }
     
     private func getDailyPlantData() throws -> [Plant] {
         let viewContext = PersistenceController.shared.container.viewContext
-        
+
         let request = Plant.fetchRequest()
         request.predicate = NSPredicate(format: "nextWateringDate_ <= %@", Date() as NSDate)
         request.sortDescriptors = [NSSortDescriptor(key: "name_", ascending: true)]
         let result = try viewContext.fetch(request)
-        
+
         return result
     }
 }

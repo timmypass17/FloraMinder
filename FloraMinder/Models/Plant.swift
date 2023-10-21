@@ -89,7 +89,7 @@ extension Plant {
     
     var daysUntilNextWateringFormatted: String {
         if daysRemainingUntillNextWatering == 0 {
-            return "Ready to water"
+            return "Today"
         } else if daysRemainingUntillNextWatering == 1 {
             return "1 day"
         } else {

@@ -7,17 +7,21 @@
 
 import Foundation
 import UserNotifications
+import CoreData
 
-struct PlantParts {
-    var name: String
-    var location: String
-    var lastWateredDate: Date
-    var interval: WaterTimeInterval
-    var unit: Int
-    var imageState: ImageState
+protocol PlantServiceProtocol {
+    func addPlant(using parts: PlantParts) throws
+    
+    func updatePlant(_ plant: Plant, using parts: PlantParts, oldNextWateringDate: Date?) throws
+    
+    func deletePlant(_ plant: Plant) throws
+    
+    func deleteAllPlants() throws
+    
+    static func scheduleWaterReminderNotification() async
 }
 
-class PlantService {
+class PlantService: PlantServiceProtocol {
     static let notificationCategoryId = "WaterPlantNotification"
     var context = PersistenceController.shared.container.viewContext
     
@@ -69,13 +73,19 @@ class PlantService {
         try context.save()
     }
     
+    func deleteAllPlants() throws {
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "Plant")
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        
+        try context.execute(deleteRequest)
+        try context.save()
+    }
+    
     // MARK: Local Notification methods
     
     static func scheduleWaterReminderNotification() async {
         // Check if app has permission to schedule notifications, may ask user for permission
-        guard await authorizeIfNeeded(),
-              UserDefaults.standard.bool(forKey: "notificationIsOn")
-        else { return }
+        guard await authorizeIfNeeded() else { return }
 
         let context = PersistenceController.shared.container.viewContext
         
@@ -84,7 +94,7 @@ class PlantService {
         notificationCenter.removeAllPendingNotificationRequests()
 
         // Fetch all plants
-        var plants: [Plant] = (try? context.fetch(Plant.fetchRequest())) ?? []
+        let plants: [Plant] = (try? context.fetch(Plant.fetchRequest())) ?? []
         
         // Group plants by their nextWateringDate
         let groupedPlants = Dictionary(grouping: plants) { $0.nextWateringDate }
@@ -105,12 +115,10 @@ class PlantService {
                 // Add user's prefered notification time
                 triggerDateComponents.hour = timeComponents.hour
                 triggerDateComponents.minute = timeComponents.minute
-                print("User notification: \(triggerDateComponents)")
             } else {
                 // Default notification time (12pm, noon)
                 triggerDateComponents.hour = 12 // 24 hour clock
                 triggerDateComponents.minute = 0
-                print("Default notification: \(triggerDateComponents)")
             }
             
             let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDateComponents, repeats: false)
@@ -134,7 +142,6 @@ class PlantService {
         case .notDetermined:
             // Ask user for permission
             if let permissionGranted = try? await notificationCenter.requestAuthorization(options: [.alert, .sound]) {
-                UserDefaults.standard.setValue(permissionGranted, forKey: "notificationIsOn")
                 return permissionGranted
             } else {
                 // Something went wrong

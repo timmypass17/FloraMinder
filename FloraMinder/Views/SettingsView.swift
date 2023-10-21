@@ -9,7 +9,6 @@ import SwiftUI
 import MessageUI
 
 struct SettingsView: View {
-    @AppStorage("notificationIsOn") var notificationsIsOn = false
     @AppStorage("notificationTime") var notificationTime = Calendar.current.date(from: DateComponents(hour: 12, minute: 0))!
 
     @StateObject var settingsViewModel = SettingsViewModel()
@@ -17,20 +16,28 @@ struct SettingsView: View {
     var body: some View {
         NavigationView {
             Form {
-                
                 Section {
-                    Toggle("Enable Water Reminders", isOn: $notificationsIsOn)
-                    
-                    if notificationsIsOn {
+                    HStack {
+                        SettingsCellView(text: "Notification Time", imageString: "clock.fill", labelColor: .indigo)
+                        Spacer()
                         DatePicker("Notification Time",
                                    selection: $notificationTime, displayedComponents: .hourAndMinute)
+                        .labelsHidden()
                     }
                 } header: {
                     Text("Notifications")
                 } footer: {
-                    if notificationsIsOn {
-                        Text("Notify user of plants that require watering today (if there are any).")
+                    Text("Get notified of plants that require watering today (if there are any).")
+                }
+                
+                Section {
+                    HStack {
+                        SettingsCellView(text: "Water Reminder Widgets", imageString: "drop.fill", labelColor: .blue)
                     }
+                } header: {
+                    Text("Widgets")
+                } footer: {
+                    Text("Add widgets to preview daily watering tasks!")
                 }
                 
                 
@@ -43,7 +50,7 @@ struct SettingsView: View {
                         }
                     }) {
                         HStack {
-                            Text("Contact Us")
+                            SettingsCellView(text: "Contact Us", imageString: "envelope.fill", labelColor: .green)
                             Spacer()
                             Image(systemName: "chevron.right")
                                 .foregroundColor(.secondary)
@@ -66,7 +73,7 @@ struct SettingsView: View {
                         }
                     }) {
                         HStack {
-                            Text("Bug Report")
+                            SettingsCellView(text: "Bug Report", imageString: "ladybug.fill", labelColor: .orange)
                             Spacer()
                             Image(systemName: "chevron.right")
                                 .foregroundColor(.secondary)
@@ -100,9 +107,9 @@ struct SettingsView: View {
             }, message: {
                 Text("There is no email associated with this device. Please email \(settingsViewModel.supportEmail) for any questions.")
             })
-            .onChange(of: notificationsIsOn) { newValue in
+            .onChange(of: notificationTime) { newValue in
                 Task {
-                    await settingsViewModel.notificationToggledValueChanged(newValue)
+                    await settingsViewModel.notificationTimeValueChanged(newValue)
                 }
             }
         }
@@ -122,5 +129,26 @@ extension Date: RawRepresentable {
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()
+    }
+}
+
+struct SettingsCellView: View {
+    var text: String
+    var imageString: String
+    var labelColor: Color
+    
+    var body: some View {
+        HStack {
+            Image(systemName: imageString)
+                .foregroundColor(.white)
+                .background {
+                    RoundedRectangle(cornerRadius: 8, style: .continuous)
+                        .fill(labelColor)
+                        .frame(width: 30, height: 30)
+                }
+                .padding(.trailing, 8)
+            
+            Text(text)
+        }
     }
 }

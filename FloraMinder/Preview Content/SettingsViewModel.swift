@@ -17,28 +17,20 @@ class SettingsViewModel: ObservableObject {
     @Published var isShowingBugMailView = false
     @Published var isPresentingAlert = false
     @Published var isPresentingMissingMailAlert = false
-
-    let supportEmail = "floraminder@gmail.com" 
     
+    let plantService = PlantService()
+    let supportEmail = "floraminder@gmail.com"
     var context = PersistenceController.shared.container.viewContext
 
     func clearDataButtonTapped() {
-        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "Plant")
-        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-
         do {
-            try context.execute(deleteRequest)
-            try context.save()
+            try plantService.deleteAllPlants()
         } catch {
             print("Error clearing data")
         }
     }
     
-    func notificationToggledValueChanged(_ notificationIsOn: Bool) async {
-        if notificationIsOn {
-            await PlantService.scheduleWaterReminderNotification()
-        } else  {
-            PlantService.removeAllWaterReminderNotification()
-        }
+    func notificationTimeValueChanged(_ newTime: Date) async {
+        await PlantService.scheduleWaterReminderNotification()
     }
 }
